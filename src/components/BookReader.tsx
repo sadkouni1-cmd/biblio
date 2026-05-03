@@ -1,36 +1,63 @@
 import { useEffect, useRef, useState } from "react";
-import { ChevronLeft, ChevronRight, AArrowDown, AArrowUp, Type } from "lucide-react";
+import { ChevronLeft, ChevronRight, AArrowDown, AArrowUp, Type, Settings2, Palette } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { getProgress, saveProgress } from "@/lib/library-storage";
 import { TranslatePopover } from "@/components/TranslatePopover";
+import { cn } from "@/lib/utils";
 
-type FontSize = "sm" | "md" | "lg" | "xl";
+type FontSize = "xs" | "sm" | "md" | "lg" | "xl" | "2xl";
+type ReaderTheme = "paper" | "sepia" | "cream" | "night" | "gray";
+type Margin = "narrow" | "normal" | "wide";
 
-const FONT_STORAGE_KEY = "rwb-reader-font-size";
+const FONT_KEY = "rwb-reader-font-size";
+const THEME_KEY = "rwb-reader-theme";
+const MARGIN_KEY = "rwb-reader-margin";
 
-const FONT_SIZE_ORDER: FontSize[] = ["sm", "md", "lg", "xl"];
-
-const FONT_SIZE_LABEL: Record<FontSize, string> = {
-  sm: "صغير",
-  md: "متوسط",
-  lg: "كبير",
-  xl: "كبير جدًا",
+const FONT_ORDER: FontSize[] = ["xs", "sm", "md", "lg", "xl", "2xl"];
+const FONT_LABEL: Record<FontSize, string> = {
+  xs: "صغير جدًا", sm: "صغير", md: "متوسط", lg: "كبير", xl: "كبير جدًا", "2xl": "ضخم",
+};
+const FONT_CLASS: Record<FontSize, string> = {
+  xs: "text-[11px] sm:text-xs leading-relaxed",
+  sm: "text-[13px] sm:text-sm leading-relaxed",
+  md: "text-[15px] sm:text-base leading-relaxed",
+  lg: "text-[17px] sm:text-lg leading-loose",
+  xl: "text-[19px] sm:text-xl leading-loose",
+  "2xl": "text-[22px] sm:text-2xl leading-loose",
 };
 
-// Tailwind classes per size — mobile first, scales up on larger screens.
-const FONT_SIZE_CLASS: Record<FontSize, string> = {
-  sm: "text-[12px] sm:text-[13px] md:text-sm leading-relaxed",
-  md: "text-[14px] sm:text-[15px] md:text-base leading-relaxed",
-  lg: "text-[16px] sm:text-[18px] md:text-lg leading-loose",
-  xl: "text-[18px] sm:text-[20px] md:text-xl leading-loose",
+const MARGIN_CLASS: Record<Margin, string> = {
+  narrow: "p-3 sm:p-5",
+  normal: "p-5 sm:p-8 md:p-12",
+  wide: "p-7 sm:p-12 md:p-20",
 };
+const MARGIN_LABEL: Record<Margin, string> = { narrow: "ضيقة", normal: "متوسطة", wide: "واسعة" };
 
-function loadFontSize(): FontSize {
+const THEMES: { id: ReaderTheme; label: string; bg: string; fg: string; swatch: string }[] = [
+  { id: "paper", label: "ورقي", bg: "bg-card", fg: "text-card-foreground", swatch: "bg-[hsl(38,40%,97%)]" },
+  { id: "sepia", label: "سيبيا", bg: "bg-[hsl(36,45%,86%)]", fg: "text-[hsl(28,38%,18%)]", swatch: "bg-[hsl(36,45%,86%)]" },
+  { id: "cream", label: "كريمي", bg: "bg-[hsl(45,55%,93%)]", fg: "text-[hsl(30,30%,18%)]", swatch: "bg-[hsl(45,55%,93%)]" },
+  { id: "night", label: "ليلي", bg: "bg-[hsl(220,20%,10%)]", fg: "text-[hsl(40,30%,88%)]", swatch: "bg-[hsl(220,20%,10%)]" },
+  { id: "gray", label: "رمادي", bg: "bg-[hsl(220,8%,18%)]", fg: "text-[hsl(0,0%,92%)]", swatch: "bg-[hsl(220,8%,18%)]" },
+];
+
+const loadFont = (): FontSize => {
   if (typeof window === "undefined") return "md";
-  const v = window.localStorage.getItem(FONT_STORAGE_KEY) as FontSize | null;
-  return v && FONT_SIZE_ORDER.includes(v) ? v : "md";
-}
+  const v = localStorage.getItem(FONT_KEY) as FontSize | null;
+  return v && FONT_ORDER.includes(v) ? v : "md";
+};
+const loadTheme = (): ReaderTheme => {
+  if (typeof window === "undefined") return "paper";
+  const v = localStorage.getItem(THEME_KEY) as ReaderTheme | null;
+  return v && THEMES.some((t) => t.id === v) ? v : "paper";
+};
+const loadMargin = (): Margin => {
+  if (typeof window === "undefined") return "normal";
+  const v = localStorage.getItem(MARGIN_KEY) as Margin | null;
+  return v && ["narrow", "normal", "wide"].includes(v) ? v : "normal";
+};
 
 export const BookReader = ({
   pages,
@@ -46,7 +73,6 @@ export const BookReader = ({
   const isMobile = useIsMobile();
   const spreadRef = useRef<HTMLDivElement>(null);
   const translateLang = language && language !== "ar" ? language : null;
-  // On mobile we show 1 page per "spread"; on desktop we show 2 pages per spread.
   const pagesPerSpread = isMobile ? 1 : 2;
   const totalSpreads = Math.max(1, Math.ceil(pages.length / pagesPerSpread));
 
@@ -58,21 +84,16 @@ export const BookReader = ({
     return Math.min(Math.floor(savedPageIndex / (isMobile ? 1 : 2)), totalSpreads - 1);
   });
 
-  const [fontSize, setFontSize] = useState<FontSize>(() => loadFontSize());
+  const [fontSize, setFontSize] = useState<FontSize>(loadFont);
+  const [readerTheme, setReaderTheme] = useState<ReaderTheme>(loadTheme);
+  const [margin, setMargin] = useState<Margin>(loadMargin);
+  const [flip, setFlip] = useState<"next" | "prev" | null>(null);
 
-  // Persist font size
-  useEffect(() => {
-    try {
-      window.localStorage.setItem(FONT_STORAGE_KEY, fontSize);
-    } catch {
-      /* ignore */
-    }
-  }, [fontSize]);
+  useEffect(() => { try { localStorage.setItem(FONT_KEY, fontSize); } catch {} }, [fontSize]);
+  useEffect(() => { try { localStorage.setItem(THEME_KEY, readerTheme); } catch {} }, [readerTheme]);
+  useEffect(() => { try { localStorage.setItem(MARGIN_KEY, margin); } catch {} }, [margin]);
 
-  // Re-clamp when layout switches between mobile/desktop.
-  useEffect(() => {
-    setSpread((s) => Math.min(s, totalSpreads - 1));
-  }, [totalSpreads]);
+  useEffect(() => { setSpread((s) => Math.min(s, totalSpreads - 1)); }, [totalSpreads]);
 
   useEffect(() => {
     if (!bookId) return;
@@ -84,67 +105,127 @@ export const BookReader = ({
 
   const go = (dir: "next" | "prev") => {
     setSpread((s) => {
-      if (dir === "next") return Math.min(s + 1, totalSpreads - 1);
-      return Math.max(s - 1, 0);
+      const next = dir === "next" ? Math.min(s + 1, totalSpreads - 1) : Math.max(s - 1, 0);
+      if (next !== s) {
+        setFlip(dir);
+        window.setTimeout(() => setFlip(null), 450);
+      }
+      return next;
     });
   };
 
+  // Keyboard arrows
+  useEffect(() => {
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "ArrowRight") go(isRTL ? "next" : "prev");
+      else if (e.key === "ArrowLeft") go(isRTL ? "prev" : "next");
+    };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [isRTL, totalSpreads]);
+
   const adjustFont = (dir: "inc" | "dec") => {
     setFontSize((cur) => {
-      const idx = FONT_SIZE_ORDER.indexOf(cur);
-      if (dir === "inc") return FONT_SIZE_ORDER[Math.min(idx + 1, FONT_SIZE_ORDER.length - 1)];
-      return FONT_SIZE_ORDER[Math.max(idx - 1, 0)];
+      const idx = FONT_ORDER.indexOf(cur);
+      return dir === "inc"
+        ? FONT_ORDER[Math.min(idx + 1, FONT_ORDER.length - 1)]
+        : FONT_ORDER[Math.max(idx - 1, 0)];
     });
   };
 
   const left = pages[spread * pagesPerSpread];
   const right = !isMobile ? pages[spread * pagesPerSpread + 1] : undefined;
+  const themeDef = THEMES.find((t) => t.id === readerTheme)!;
 
   const Page = ({ text, pageNumber }: { text?: string; pageNumber: number }) => (
-    <div className="relative flex-1 bg-card paper-texture page-shadow p-5 sm:p-8 md:p-12 overflow-hidden">
+    <div className={cn("relative flex-1 paper-texture page-shadow overflow-hidden transition-colors duration-300", themeDef.bg, MARGIN_CLASS[margin])}>
       <div
-        className={`h-full w-full overflow-y-auto ${isRTL ? "text-right font-arabic" : "text-left"} text-card-foreground whitespace-pre-line ${FONT_SIZE_CLASS[fontSize]} pb-8`}
+        className={cn(
+          "h-full w-full overflow-y-auto whitespace-pre-line pb-8 transition-all duration-300",
+          isRTL ? "text-right font-arabic" : "text-left",
+          themeDef.fg,
+          FONT_CLASS[fontSize],
+        )}
       >
         {text}
       </div>
-      <div className="absolute bottom-2 left-0 right-0 text-center text-[10px] sm:text-xs text-muted-foreground">
+      <div className={cn("absolute bottom-2 left-0 right-0 text-center text-[10px] sm:text-xs opacity-60", themeDef.fg)}>
         {pageNumber}
       </div>
     </div>
   );
 
-  const fontIdx = FONT_SIZE_ORDER.indexOf(fontSize);
+  const fontIdx = FONT_ORDER.indexOf(fontSize);
 
   return (
     <div className="flex flex-col items-center gap-4 sm:gap-6">
-      {/* Font size controls */}
-      <div className="flex items-center gap-2 self-end sm:self-center bg-card/80 border border-border/60 rounded-full px-2 py-1 shadow-soft">
+      {/* Toolbar */}
+      <div className="flex items-center gap-2 flex-wrap justify-center bg-card/80 border border-border/60 rounded-full px-2 py-1 shadow-soft">
         <Type className="h-4 w-4 text-muted-foreground mx-1 hidden sm:inline-block" />
-        <Button
-          variant="ghost"
-          size="icon"
-          onClick={() => adjustFont("dec")}
-          disabled={fontIdx === 0}
-          className="h-8 w-8 rounded-full"
-          aria-label="تصغير الخط"
-          title="تصغير الخط"
-        >
+        <Button variant="ghost" size="icon" onClick={() => adjustFont("dec")} disabled={fontIdx === 0} className="h-8 w-8 rounded-full" aria-label="تصغير الخط">
           <AArrowDown className="h-4 w-4" />
         </Button>
-        <span className="text-xs sm:text-sm text-muted-foreground tabular-nums min-w-[3.5rem] text-center font-display">
-          {FONT_SIZE_LABEL[fontSize]}
+        <span className="text-xs sm:text-sm text-muted-foreground tabular-nums min-w-[4rem] text-center font-display">
+          {FONT_LABEL[fontSize]}
         </span>
-        <Button
-          variant="ghost"
-          size="icon"
-          onClick={() => adjustFont("inc")}
-          disabled={fontIdx === FONT_SIZE_ORDER.length - 1}
-          className="h-8 w-8 rounded-full"
-          aria-label="تكبير الخط"
-          title="تكبير الخط"
-        >
+        <Button variant="ghost" size="icon" onClick={() => adjustFont("inc")} disabled={fontIdx === FONT_ORDER.length - 1} className="h-8 w-8 rounded-full" aria-label="تكبير الخط">
           <AArrowUp className="h-4 w-4" />
         </Button>
+
+        <span className="w-px h-5 bg-border mx-1" />
+
+        {/* Theme picker */}
+        <Popover>
+          <PopoverTrigger asChild>
+            <Button variant="ghost" size="icon" className="h-8 w-8 rounded-full" aria-label="لون الصفحة" title="لون الصفحة">
+              <Palette className="h-4 w-4" />
+            </Button>
+          </PopoverTrigger>
+          <PopoverContent className="w-56 p-3" align="end">
+            <p className="text-xs font-display text-muted-foreground mb-2">لون الصفحة</p>
+            <div className="grid grid-cols-5 gap-2">
+              {THEMES.map((t) => (
+                <button
+                  key={t.id}
+                  onClick={() => setReaderTheme(t.id)}
+                  className={cn(
+                    "h-9 w-9 rounded-full border-2 transition-transform hover:scale-110",
+                    t.swatch,
+                    readerTheme === t.id ? "border-primary ring-2 ring-primary/30" : "border-border/60",
+                  )}
+                  title={t.label}
+                  aria-label={t.label}
+                />
+              ))}
+            </div>
+          </PopoverContent>
+        </Popover>
+
+        {/* Margin picker */}
+        <Popover>
+          <PopoverTrigger asChild>
+            <Button variant="ghost" size="icon" className="h-8 w-8 rounded-full" aria-label="الهوامش" title="الهوامش">
+              <Settings2 className="h-4 w-4" />
+            </Button>
+          </PopoverTrigger>
+          <PopoverContent className="w-44 p-2" align="end">
+            <p className="text-xs font-display text-muted-foreground mb-2 px-1">الهوامش</p>
+            <div className="flex flex-col gap-1">
+              {(["narrow", "normal", "wide"] as Margin[]).map((m) => (
+                <button
+                  key={m}
+                  onClick={() => setMargin(m)}
+                  className={cn(
+                    "text-sm text-right px-3 py-1.5 rounded-md transition-colors",
+                    margin === m ? "bg-primary text-primary-foreground" : "hover:bg-secondary",
+                  )}
+                >
+                  {MARGIN_LABEL[m]}
+                </button>
+              ))}
+            </div>
+          </PopoverContent>
+        </Popover>
       </div>
 
       <div
@@ -152,7 +233,14 @@ export const BookReader = ({
         className="relative w-full max-w-5xl h-[calc(100vh-13rem)] sm:h-auto sm:aspect-[16/10]"
         dir="ltr"
       >
-        <div className="absolute inset-0 flex shadow-book rounded-lg overflow-hidden bg-gradient-page">
+        <div
+          key={spread}
+          className={cn(
+            "absolute inset-0 flex shadow-book rounded-lg overflow-hidden bg-gradient-page",
+            flip === "next" && "animate-flip-next",
+            flip === "prev" && "animate-flip-prev",
+          )}
+        >
           <Page text={left} pageNumber={spread * pagesPerSpread + 1} />
           {!isMobile && (
             <>
@@ -172,27 +260,13 @@ export const BookReader = ({
       )}
 
       <div className="flex items-center gap-3 sm:gap-6 w-full justify-center">
-        <Button
-          variant="outline"
-          size="icon"
-          onClick={() => go("prev")}
-          disabled={spread === 0}
-          className="rounded-full h-10 w-10 sm:h-12 sm:w-12"
-          aria-label="السابق"
-        >
+        <Button variant="outline" size="icon" onClick={() => go("prev")} disabled={spread === 0} className="rounded-full h-10 w-10 sm:h-12 sm:w-12" aria-label="السابق">
           <ChevronLeft className="h-5 w-5" />
         </Button>
         <span className="font-display text-base sm:text-lg text-muted-foreground tabular-nums">
           {spread + 1} / {totalSpreads}
         </span>
-        <Button
-          variant="outline"
-          size="icon"
-          onClick={() => go("next")}
-          disabled={spread + 1 >= totalSpreads}
-          className="rounded-full h-10 w-10 sm:h-12 sm:w-12"
-          aria-label="التالي"
-        >
+        <Button variant="outline" size="icon" onClick={() => go("next")} disabled={spread + 1 >= totalSpreads} className="rounded-full h-10 w-10 sm:h-12 sm:w-12" aria-label="التالي">
           <ChevronRight className="h-5 w-5" />
         </Button>
       </div>
