@@ -276,6 +276,21 @@
   }
 }
 
+@layer utilities {
+  @keyframes page-flip-next {
+    0% { transform: perspective(1600px) rotateY(0deg); opacity: 1; }
+    50% { transform: perspective(1600px) rotateY(-12deg) translateX(-6%); opacity: 0.6; }
+    100% { transform: perspective(1600px) rotateY(0deg); opacity: 1; }
+  }
+  @keyframes page-flip-prev {
+    0% { transform: perspective(1600px) rotateY(0deg); opacity: 1; }
+    50% { transform: perspective(1600px) rotateY(12deg) translateX(6%); opacity: 0.6; }
+    100% { transform: perspective(1600px) rotateY(0deg); opacity: 1; }
+  }
+  .animate-flip-next { animation: page-flip-next 0.45s cubic-bezier(0.4,0,0.2,1); transform-origin: left center; }
+  .animate-flip-prev { animation: page-flip-prev 0.45s cubic-bezier(0.4,0,0.2,1); transform-origin: right center; }
+}
+
 @layer components {
   .book-spine {
     background: linear-gradient(90deg,
