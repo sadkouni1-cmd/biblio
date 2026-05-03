@@ -2353,6 +2353,130 @@ const trueStorySeeds: Seed[] = trueStoryRaw.map(([title, author, language]) => {
   };
 });
 
+// ====================================================================
+// MOST-READ WORLDWIDE — أشهر الكتب الأكثر قراءة عالميًا في كل الأقسام
+// ====================================================================
+const mostReadWorldwideSeeds: Seed[] = [
+  // ========== TRENDING (الأكثر رواجًا) ==========
+  { title: "هاري بوتر وحجر الفيلسوف", author: "ج. ك. رولينغ (مترجم)", category: "trending", language: "ar", description: "أشهر روايات الفنتازيا في العالم.", pageProfile: "epic" },
+  { title: "هاري بوتر وحجرة الأسرار", author: "ج. ك. رولينغ (مترجم)", category: "trending", language: "ar", description: "الجزء الثاني من سلسلة هاري بوتر.", pageProfile: "epic" },
+  { title: "هاري بوتر وسجين أزكابان", author: "ج. ك. رولينغ (مترجم)", category: "trending", language: "ar", description: "الجزء الثالث من السلسلة.", pageProfile: "epic" },
+  { title: "شفرة دافنشي", author: "دان براون (مترجم)", category: "trending", language: "ar", description: "إثارة وألغاز رمزية.", pageProfile: "epic" },
+  { title: "الملائكة والشياطين", author: "دان براون (مترجم)", category: "trending", language: "ar", description: "روبرت لانغدون في الفاتيكان.", pageProfile: "epic" },
+  { title: "الجريمة والعقاب", author: "فيودور دوستويفسكي (مترجم)", category: "trending", language: "ar", description: "تحفة الأدب الروسي.", pageProfile: "epic" },
+  { title: "الإخوة كارامازوف", author: "فيودور دوستويفسكي (مترجم)", category: "trending", language: "ar", description: "قمة العمل الدوستويفسكي.", pageProfile: "epic" },
+  { title: "البؤساء", author: "فيكتور هوغو (مترجم)", category: "trending", language: "ar", description: "ملحمة العدالة والإنسانية.", pageProfile: "epic" },
+  { title: "مئة عام من العزلة", author: "غابرييل غارسيا ماركيز (مترجم)", category: "trending", language: "ar", description: "روح الواقعية السحرية.", pageProfile: "epic" },
+  { title: "الحب في زمن الكوليرا", author: "غابرييل غارسيا ماركيز (مترجم)", category: "trending", language: "ar", description: "ملحمة الحب الطويل.", pageProfile: "epic" },
+  { title: "Harry Potter and the Sorcerer's Stone", author: "J. K. Rowling", category: "trending", language: "en", description: "The book that defined a generation.", pageProfile: "epic" },
+  { title: "The Da Vinci Code", author: "Dan Brown", category: "trending", language: "en", description: "Symbology thriller bestseller.", pageProfile: "epic" },
+  { title: "The Alchemist", author: "Paulo Coelho", category: "trending", language: "en", description: "A timeless fable about destiny.", pageProfile: "long" },
+  { title: "To Kill a Mockingbird", author: "Harper Lee", category: "trending", language: "en", description: "Pulitzer-winning American classic.", pageProfile: "long" },
+  { title: "1984", author: "George Orwell", category: "trending", language: "en", description: "Dystopian masterpiece.", pageProfile: "long" },
+  { title: "The Great Gatsby", author: "F. Scott Fitzgerald", category: "trending", language: "en", description: "Jazz Age classic.", pageProfile: "medium" },
+  { title: "The Catcher in the Rye", author: "J. D. Salinger", category: "trending", language: "en", description: "Coming-of-age icon.", pageProfile: "long" },
+  { title: "Le Petit Prince", author: "Antoine de Saint-Exupéry", category: "trending", language: "fr", description: "Le conte le plus traduit au monde.", pageProfile: "short" },
+  { title: "L'Étranger", author: "Albert Camus", category: "trending", language: "fr", description: "Roman culte de l'absurde.", pageProfile: "medium" },
+  { title: "Cien años de soledad", author: "Gabriel García Márquez", category: "trending", language: "es", description: "Obra cumbre del realismo mágico.", pageProfile: "epic" },
+  { title: "Don Quijote de la Mancha", author: "Miguel de Cervantes", category: "trending", language: "es", description: "La novela fundacional moderna.", pageProfile: "epic" },
+
+  // ========== RELIGIOUS ==========
+  { title: "في ظلال القرآن (مختارات)", author: "سيد قطب", category: "religious", language: "ar", description: "تفسير أدبي حركي للقرآن.", pageProfile: "epic" },
+  { title: "تفسير ابن كثير (مختصر)", author: "ابن كثير", category: "religious", language: "ar", description: "أشهر التفاسير المعتمدة.", pageProfile: "epic" },
+  { title: "صحيح البخاري (مختارات)", author: "الإمام البخاري", category: "religious", language: "ar", description: "أصح كتب الحديث.", pageProfile: "epic" },
+  { title: "صحيح مسلم (مختارات)", author: "الإمام مسلم", category: "religious", language: "ar", description: "ثاني أصح كتب الحديث.", pageProfile: "epic" },
+  { title: "الرحيق المختوم", author: "صفي الرحمن المباركفوري", category: "religious", language: "ar", description: "السيرة النبوية الفائزة.", pageProfile: "epic" },
+  { title: "Mere Christianity", author: "C. S. Lewis", category: "religious", language: "en", description: "Classic Christian apologetics.", pageProfile: "long" },
+  { title: "The Purpose Driven Life", author: "Rick Warren", category: "religious", language: "en", description: "Bestselling spiritual guide.", pageProfile: "long" },
+  { title: "The Power of Now", author: "Eckhart Tolle", category: "religious", language: "en", description: "Spiritual awakening guide.", pageProfile: "long" },
+  { title: "L'Imitation de Jésus-Christ", author: "Thomas a Kempis", category: "religious", language: "fr", description: "Classique spirituel chrétien.", pageProfile: "long" },
+  { title: "El Camino", author: "San Josemaría Escrivá", category: "religious", language: "es", description: "Clásico espiritual mundial.", pageProfile: "long" },
+
+  // ========== PHILOSOPHY ==========
+  { title: "هكذا تكلم زرادشت", author: "فريدريش نيتشه (مترجم)", category: "philosophy", language: "ar", description: "أشهر كتب نيتشه.", pageProfile: "epic" },
+  { title: "تأملات", author: "ماركوس أوريليوس (مترجم)", category: "philosophy", language: "ar", description: "حكمة الرواقية الإمبراطورية.", pageProfile: "long" },
+  { title: "الجمهورية", author: "أفلاطون (مترجم)", category: "philosophy", language: "ar", description: "أساس الفلسفة السياسية.", pageProfile: "epic" },
+  { title: "نقد العقل المحض", author: "إيمانويل كانط (مترجم)", category: "philosophy", language: "ar", description: "ثورة كانط الفلسفية.", pageProfile: "epic" },
+  { title: "Meditations", author: "Marcus Aurelius", category: "philosophy", language: "en", description: "Stoic wisdom of an emperor.", pageProfile: "long" },
+  { title: "Beyond Good and Evil", author: "Friedrich Nietzsche", category: "philosophy", language: "en", description: "A landmark of modern philosophy.", pageProfile: "long" },
+  { title: "Sophie's World", author: "Jostein Gaarder", category: "philosophy", language: "en", description: "A novel about the history of philosophy.", pageProfile: "epic" },
+  { title: "Le Monde de Sophie", author: "Jostein Gaarder", category: "philosophy", language: "fr", description: "Roman initiatique à la philosophie.", pageProfile: "epic" },
+  { title: "Así habló Zaratustra", author: "Friedrich Nietzsche", category: "philosophy", language: "es", description: "Obra cumbre de Nietzsche.", pageProfile: "epic" },
+
+  // ========== SELF-DEVELOPMENT ==========
+  { title: "العادات السبع للناس الأكثر فاعلية", author: "ستيفن كوفي (مترجم)", category: "selfdev", language: "ar", description: "كلاسيكية التنمية الذاتية.", pageProfile: "long" },
+  { title: "كيف تكسب الأصدقاء وتؤثر في الناس", author: "ديل كارنيجي (مترجم)", category: "selfdev", language: "ar", description: "أشهر كتب العلاقات.", pageProfile: "long" },
+  { title: "فكر تصبح غنيًا", author: "نابليون هيل (مترجم)", category: "selfdev", language: "ar", description: "أصول التفكير الناجح.", pageProfile: "long" },
+  { title: "قوة العقل الباطن", author: "جوزيف ميرفي (مترجم)", category: "selfdev", language: "ar", description: "كلاسيكية تطوير الذات.", pageProfile: "long" },
+  { title: "Atomic Habits", author: "James Clear", category: "selfdev", language: "en", description: "Tiny changes, remarkable results.", pageProfile: "long" },
+  { title: "The 7 Habits of Highly Effective People", author: "Stephen R. Covey", category: "selfdev", language: "en", description: "Personal effectiveness classic.", pageProfile: "long" },
+  { title: "How to Win Friends and Influence People", author: "Dale Carnegie", category: "selfdev", language: "en", description: "All-time bestseller.", pageProfile: "long" },
+  { title: "Think and Grow Rich", author: "Napoleon Hill", category: "selfdev", language: "en", description: "Classic of success literature.", pageProfile: "long" },
+  { title: "The Power of Habit", author: "Charles Duhigg", category: "selfdev", language: "en", description: "Why we do what we do.", pageProfile: "long" },
+  { title: "Les 7 habitudes des gens efficaces", author: "Stephen R. Covey", category: "selfdev", language: "fr", description: "Classique du développement personnel.", pageProfile: "long" },
+  { title: "Hábitos Atómicos", author: "James Clear", category: "selfdev", language: "es", description: "Pequeños cambios, grandes resultados.", pageProfile: "long" },
+
+  // ========== SCIENCE ==========
+  { title: "تاريخ موجز للزمن", author: "ستيفن هوكينغ (مترجم)", category: "science", language: "ar", description: "أشهر كتاب علمي معاصر.", pageProfile: "long" },
+  { title: "الجين الأناني", author: "ريتشارد دوكينز (مترجم)", category: "science", language: "ar", description: "نظرة جديدة على التطور.", pageProfile: "long" },
+  { title: "العاقل: تاريخ مختصر للجنس البشري", author: "يوفال نوح هراري (مترجم)", category: "science", language: "ar", description: "ظاهرة عالمية في الكتب العلمية.", pageProfile: "epic" },
+  { title: "21 درسًا للقرن الحادي والعشرين", author: "يوفال نوح هراري (مترجم)", category: "science", language: "ar", description: "تأملات عن مستقبلنا.", pageProfile: "long" },
+  { title: "الكون", author: "كارل ساغان (مترجم)", category: "science", language: "ar", description: "رحلة في الكون والمعرفة.", pageProfile: "epic" },
+  { title: "Sapiens: A Brief History of Humankind", author: "Yuval Noah Harari", category: "science", language: "en", description: "Worldwide science bestseller.", pageProfile: "epic" },
+  { title: "Homo Deus", author: "Yuval Noah Harari", category: "science", language: "en", description: "A brief history of tomorrow.", pageProfile: "epic" },
+  { title: "A Brief History of Time", author: "Stephen Hawking", category: "science", language: "en", description: "From the Big Bang to black holes.", pageProfile: "long" },
+  { title: "The Selfish Gene", author: "Richard Dawkins", category: "science", language: "en", description: "Modern biology classic.", pageProfile: "long" },
+  { title: "Cosmos", author: "Carl Sagan", category: "science", language: "en", description: "Iconic science writing.", pageProfile: "epic" },
+  { title: "Thinking, Fast and Slow", author: "Daniel Kahneman", category: "science", language: "en", description: "Two systems of thought.", pageProfile: "epic" },
+  { title: "Sapiens : Une brève histoire de l'humanité", author: "Yuval Noah Harari", category: "science", language: "fr", description: "Phénomène mondial.", pageProfile: "epic" },
+  { title: "Una breve historia del tiempo", author: "Stephen Hawking", category: "science", language: "es", description: "Del Big Bang a los agujeros negros.", pageProfile: "long" },
+
+  // ========== CHILDREN ==========
+  { title: "الأمير الصغير", author: "أنطوان دو سانت إكزوبيري (مترجم)", category: "children", language: "ar", description: "أشهر قصة أطفال في العالم.", pageProfile: "short" },
+  { title: "أليس في بلاد العجائب", author: "لويس كارول (مترجم)", category: "children", language: "ar", description: "كلاسيكية الخيال للأطفال.", pageProfile: "short" },
+  { title: "ماتيلدا", author: "رولد دال (مترجم)", category: "children", language: "ar", description: "الطفلة العبقرية.", pageProfile: "short" },
+  { title: "تشارلي ومصنع الشوكولاتة", author: "رولد دال (مترجم)", category: "children", language: "ar", description: "مغامرة سحرية للأطفال.", pageProfile: "short" },
+  { title: "Charlotte's Web", author: "E. B. White", category: "children", language: "en", description: "Beloved children's classic.", pageProfile: "short" },
+  { title: "Matilda", author: "Roald Dahl", category: "children", language: "en", description: "A story of a brilliant little girl.", pageProfile: "short" },
+  { title: "Charlie and the Chocolate Factory", author: "Roald Dahl", category: "children", language: "en", description: "A magical adventure.", pageProfile: "short" },
+  { title: "Le Petit Nicolas", author: "Sempé & Goscinny", category: "children", language: "fr", description: "Aventures enfantines cultes.", pageProfile: "short" },
+  { title: "El principito", author: "Antoine de Saint-Exupéry", category: "children", language: "es", description: "Clásico universal infantil.", pageProfile: "short" },
+
+  // ========== STORIES ==========
+  { title: "ألف ليلة وليلة (مختارات)", author: "تراث عربي", category: "stories", language: "ar", description: "أشهر مجموعة قصصية في التراث.", pageProfile: "epic" },
+  { title: "مختارات من قصص يوسف إدريس", author: "يوسف إدريس", category: "stories", language: "ar", description: "أيقونة القصة المصرية.", pageProfile: "medium" },
+  { title: "The Old Man and the Sea", author: "Ernest Hemingway", category: "stories", language: "en", description: "Nobel-winning novella.", pageProfile: "short" },
+  { title: "Interpreter of Maladies", author: "Jhumpa Lahiri", category: "stories", language: "en", description: "Pulitzer-winning short stories.", pageProfile: "medium" },
+  { title: "Le Vieil Homme et la Mer", author: "Ernest Hemingway", category: "stories", language: "fr", description: "Chef-d'œuvre court d'Hemingway.", pageProfile: "short" },
+  { title: "Ficciones", author: "Jorge Luis Borges", category: "stories", language: "es", description: "Cuentos legendarios.", pageProfile: "medium" },
+
+  // ========== NOVELS ==========
+  { title: "أولاد حارتنا", author: "نجيب محفوظ", category: "novels", language: "ar", description: "تحفة نجيب محفوظ المثيرة للجدل.", pageProfile: "epic" },
+  { title: "اللص والكلاب", author: "نجيب محفوظ", category: "novels", language: "ar", description: "رواية مصرية كلاسيكية.", pageProfile: "long" },
+  { title: "ثلاثية القاهرة - بين القصرين", author: "نجيب محفوظ", category: "novels", language: "ar", description: "الجزء الأول من ثلاثية محفوظ.", pageProfile: "epic" },
+  { title: "موسم الهجرة إلى الشمال", author: "الطيب صالح", category: "novels", language: "ar", description: "رواية عربية أيقونية.", pageProfile: "long" },
+  { title: "رجال في الشمس", author: "غسان كنفاني", category: "novels", language: "ar", description: "رواية فلسطينية مؤثرة.", pageProfile: "medium" },
+  { title: "Pride and Prejudice", author: "Jane Austen", category: "novels", language: "en", description: "Beloved English classic.", pageProfile: "epic" },
+  { title: "Jane Eyre", author: "Charlotte Brontë", category: "novels", language: "en", description: "A romantic Victorian classic.", pageProfile: "epic" },
+  { title: "Wuthering Heights", author: "Emily Brontë", category: "novels", language: "en", description: "Gothic romance masterpiece.", pageProfile: "long" },
+  { title: "Anna Karenina", author: "Leo Tolstoy", category: "novels", language: "en", description: "Russian literary giant.", pageProfile: "epic" },
+  { title: "War and Peace", author: "Leo Tolstoy", category: "novels", language: "en", description: "Sweeping Russian epic.", pageProfile: "epic" },
+  { title: "Madame Bovary", author: "Gustave Flaubert", category: "novels", language: "fr", description: "Chef-d'œuvre du réalisme.", pageProfile: "epic" },
+  { title: "Les Misérables", author: "Victor Hugo", category: "novels", language: "fr", description: "Fresque humaine légendaire.", pageProfile: "epic" },
+  { title: "La Sombra del Viento", author: "Carlos Ruiz Zafón", category: "novels", language: "es", description: "Bestseller mundial.", pageProfile: "epic" },
+
+  // ========== TRUE STORIES ==========
+  { title: "مذكرات آن فرانك", author: "آن فرانك (مترجم)", category: "truestory", language: "ar", description: "شهادة طفلة على الحرب.", pageProfile: "long" },
+  { title: "الإنسان يبحث عن المعنى", author: "فيكتور فرانكل (مترجم)", category: "truestory", language: "ar", description: "تجربة معسكرات الاعتقال.", pageProfile: "long" },
+  { title: "The Diary of a Young Girl", author: "Anne Frank", category: "truestory", language: "en", description: "Powerful WWII memoir.", pageProfile: "long" },
+  { title: "Man's Search for Meaning", author: "Viktor E. Frankl", category: "truestory", language: "en", description: "A Holocaust survivor's testimony.", pageProfile: "long" },
+  { title: "Long Walk to Freedom", author: "Nelson Mandela", category: "truestory", language: "en", description: "Mandela's autobiography.", pageProfile: "epic" },
+  { title: "Educated", author: "Tara Westover", category: "truestory", language: "en", description: "A memoir of family and education.", pageProfile: "long" },
+  { title: "Becoming", author: "Michelle Obama", category: "truestory", language: "en", description: "Memoir of the former First Lady.", pageProfile: "epic" },
+  { title: "Si c'est un homme", author: "Primo Levi", category: "truestory", language: "fr", description: "Témoignage des camps.", pageProfile: "long" },
+  { title: "El diario de Ana Frank", author: "Anne Frank", category: "truestory", language: "es", description: "Testimonio universal.", pageProfile: "long" },
+];
+
 const allSeeds: Seed[] = [
   ...arabicPhilosophyTitles.map(([title, author]) => ({
     title,
@@ -2415,6 +2539,7 @@ const allSeeds: Seed[] = [
   ...bonusSeeds,
   ...trueStorySeeds,
   ...trueStoryExtraSeeds,
+  ...mostReadWorldwideSeeds,
 ];
 
 export const books: Book[] = allSeeds.map((seed, index) => ({
