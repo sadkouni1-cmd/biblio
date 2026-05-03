@@ -2539,6 +2539,7 @@ const allSeeds: Seed[] = [
   ...bonusSeeds,
   ...trueStorySeeds,
   ...trueStoryExtraSeeds,
+  ...mostReadWorldwideSeeds,
 ];
 
 export const books: Book[] = allSeeds.map((seed, index) => ({
