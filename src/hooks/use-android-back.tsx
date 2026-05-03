@@ -6,23 +6,24 @@ import { useLocation, useNavigate } from "react-router-dom";
  * - On any non-home route → navigate back in history (or to "/" as fallback).
  * - On the home route → exit the app.
  *
- * In a regular browser/PWA the native event never fires, so this is a no-op
- * and the browser's built-in back gesture continues to work via react-router.
+ * In a regular browser/PWA Capacitor isn't present so this is a no-op.
  */
 export function useAndroidBack() {
   const navigate = useNavigate();
   const location = useLocation();
 
   useEffect(() => {
+    // Only attempt when running inside a Capacitor native shell.
+    const cap = (window as any)?.Capacitor;
+    if (!cap?.isNativePlatform?.()) return;
+
     let removeListener: (() => void) | null = null;
     let cancelled = false;
 
     (async () => {
       try {
-        // Dynamic import — package is optional and only present in the native build.
-        const mod = (await import(
-          /* @vite-ignore */ "@capacitor/app" as string
-        ).catch(() => null)) as { App?: any } | null;
+        const moduleName = "@capacitor/app";
+        const mod: any = await import(/* @vite-ignore */ moduleName).catch(() => null);
         if (cancelled || !mod?.App) return;
 
         const sub = await mod.App.addListener("backButton", () => {
@@ -39,7 +40,7 @@ export function useAndroidBack() {
         });
         removeListener = () => sub.remove?.();
       } catch {
-        /* Capacitor not available — ignore. */
+        /* ignore */
       }
     })();
 
