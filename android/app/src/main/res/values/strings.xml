@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">Read With Bob</string>
+    <string name="title_activity_main">Read With Bob</string>
+    <string name="package_name">com.kutub.app</string>
+    <string name="custom_url_scheme">com.kutub.app</string>
+</resources>
