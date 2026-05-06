@@ -2654,6 +2654,8 @@ const massExpansionSeeds: Seed[] = [
   { title: "Yo soy Malala", author: "Malala Yousafzai", category: "truestory", language: "es", description: "La niña que defendió la educación.", pageProfile: "long" },
 ];
 
+allSeeds.push(...massExpansionSeeds);
+
 export const books: Book[] = allSeeds.map((seed, index) => ({
   id: String(index + 1),
   title: seed.title,
