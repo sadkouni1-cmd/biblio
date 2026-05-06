@@ -1,5 +1,5 @@
-import { useEffect, useRef, useState } from "react";
-import { ChevronLeft, ChevronRight, AArrowDown, AArrowUp, Type, Settings2, Palette } from "lucide-react";
+import { useCallback, useEffect, useRef, useState } from "react";
+import { ChevronLeft, ChevronRight, AArrowDown, AArrowUp, Type, Settings2, Palette, Maximize2, Minimize2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { useIsMobile } from "@/hooks/use-mobile";
@@ -71,10 +71,88 @@ export const BookReader = ({
   language?: string;
 }) => {
   const isMobile = useIsMobile();
+  const containerRef = useRef<HTMLDivElement>(null);
   const spreadRef = useRef<HTMLDivElement>(null);
   const translateLang = language && language !== "ar" ? language : null;
   const pagesPerSpread = isMobile ? 1 : 2;
   const totalSpreads = Math.max(1, Math.ceil(pages.length / pagesPerSpread));
+
+  const [isFullscreen, setIsFullscreen] = useState(false);
+  const [toolsVisible, setToolsVisible] = useState(true);
+  const hideTimerRef = useRef<number | null>(null);
+
+  const scheduleHide = useCallback(() => {
+    if (hideTimerRef.current) window.clearTimeout(hideTimerRef.current);
+    hideTimerRef.current = window.setTimeout(() => setToolsVisible(false), 2800);
+  }, []);
+
+  const showTools = useCallback(() => {
+    setToolsVisible(true);
+    scheduleHide();
+  }, [scheduleHide]);
+
+  useEffect(() => {
+    scheduleHide();
+    return () => {
+      if (hideTimerRef.current) window.clearTimeout(hideTimerRef.current);
+    };
+  }, [scheduleHide]);
+
+  const toggleFullscreen = useCallback(async () => {
+    const el = containerRef.current;
+    if (!el) return;
+    try {
+      if (!document.fullscreenElement) {
+        await el.requestFullscreen?.();
+      } else {
+        await document.exitFullscreen?.();
+      }
+    } catch {
+      // fallback: just toggle local state
+      setIsFullscreen((v) => !v);
+    }
+  }, []);
+
+  useEffect(() => {
+    const onFs = () => setIsFullscreen(!!document.fullscreenElement);
+    document.addEventListener("fullscreenchange", onFs);
+    return () => document.removeEventListener("fullscreenchange", onFs);
+  }, []);
+
+  const exitFullscreen = useCallback(async () => {
+    try {
+      if (document.fullscreenElement) await document.exitFullscreen?.();
+    } catch {}
+    setIsFullscreen(false);
+  }, []);
+
+  // Double-tap anywhere to exit fullscreen (mobile-friendly)
+  const lastTapRef = useRef<number>(0);
+  const handleDoubleTap = useCallback(() => {
+    if (!isFullscreen) return;
+    const now = Date.now();
+    if (now - lastTapRef.current < 320) {
+      exitFullscreen();
+      lastTapRef.current = 0;
+    } else {
+      lastTapRef.current = now;
+    }
+  }, [isFullscreen, exitFullscreen]);
+
+  // Android hardware back button → exit fullscreen first instead of leaving page
+  useEffect(() => {
+    if (!isFullscreen) return;
+    window.history.pushState({ rwbFullscreen: true }, "");
+    const onPop = () => { exitFullscreen(); };
+    window.addEventListener("popstate", onPop);
+    return () => {
+      window.removeEventListener("popstate", onPop);
+      if (window.history.state?.rwbFullscreen) {
+        try { window.history.back(); } catch {}
+      }
+    };
+  }, [isFullscreen, exitFullscreen]);
+
 
   const [spread, setSpread] = useState(() => {
     if (!bookId) return 0;
@@ -158,14 +236,30 @@ export const BookReader = ({
   const fontIdx = FONT_ORDER.indexOf(fontSize);
 
   return (
-    <div className="flex flex-col items-center gap-4 sm:gap-6">
+    <div
+      ref={containerRef}
+      onMouseMove={showTools}
+      onTouchStart={showTools}
+      onDoubleClick={isFullscreen ? exitFullscreen : undefined}
+      onTouchEnd={handleDoubleTap}
+      className={cn(
+        "flex flex-col items-center gap-4 sm:gap-6 transition-colors",
+        isFullscreen && "fixed inset-0 z-50 bg-background p-2 sm:p-4 overflow-auto justify-center",
+      )}
+    >
       {/* Toolbar */}
-      <div className="flex items-center gap-2 flex-wrap justify-center bg-card/80 border border-border/60 rounded-full px-2 py-1 shadow-soft">
+      <div
+        className={cn(
+          "flex items-center gap-1.5 sm:gap-2 flex-wrap justify-center bg-card/90 backdrop-blur border border-border/60 rounded-full px-2 py-1 shadow-soft transition-all duration-300",
+          isFullscreen && "fixed top-3 left-1/2 -translate-x-1/2 z-[60]",
+          toolsVisible ? "opacity-100 translate-y-0" : "opacity-0 -translate-y-2 pointer-events-none",
+        )}
+      >
         <Type className="h-4 w-4 text-muted-foreground mx-1 hidden sm:inline-block" />
         <Button variant="ghost" size="icon" onClick={() => adjustFont("dec")} disabled={fontIdx === 0} className="h-8 w-8 rounded-full" aria-label="تصغير الخط">
           <AArrowDown className="h-4 w-4" />
         </Button>
-        <span className="text-xs sm:text-sm text-muted-foreground tabular-nums min-w-[4rem] text-center font-display">
+        <span className="text-xs sm:text-sm text-muted-foreground tabular-nums min-w-[3.5rem] sm:min-w-[4rem] text-center font-display">
           {FONT_LABEL[fontSize]}
         </span>
         <Button variant="ghost" size="icon" onClick={() => adjustFont("inc")} disabled={fontIdx === FONT_ORDER.length - 1} className="h-8 w-8 rounded-full" aria-label="تكبير الخط">
@@ -174,7 +268,6 @@ export const BookReader = ({
 
         <span className="w-px h-5 bg-border mx-1" />
 
-        {/* Theme picker */}
         <Popover>
           <PopoverTrigger asChild>
             <Button variant="ghost" size="icon" className="h-8 w-8 rounded-full" aria-label="لون الصفحة" title="لون الصفحة">
@@ -201,7 +294,6 @@ export const BookReader = ({
           </PopoverContent>
         </Popover>
 
-        {/* Margin picker */}
         <Popover>
           <PopoverTrigger asChild>
             <Button variant="ghost" size="icon" className="h-8 w-8 rounded-full" aria-label="الهوامش" title="الهوامش">
@@ -226,11 +318,30 @@ export const BookReader = ({
             </div>
           </PopoverContent>
         </Popover>
+
+        <span className="w-px h-5 bg-border mx-1" />
+
+        <Button
+          variant="ghost"
+          size="icon"
+          onClick={toggleFullscreen}
+          className="h-8 w-8 rounded-full"
+          aria-label={isFullscreen ? "خروج من ملء الشاشة" : "ملء الشاشة"}
+          title={isFullscreen ? "خروج من ملء الشاشة" : "ملء الشاشة"}
+        >
+          {isFullscreen ? <Minimize2 className="h-4 w-4" /> : <Maximize2 className="h-4 w-4" />}
+        </Button>
       </div>
 
       <div
         ref={spreadRef}
-        className="relative w-full max-w-5xl h-[calc(100vh-13rem)] sm:h-auto sm:aspect-[16/10]"
+        onClick={showTools}
+        className={cn(
+          "relative w-full max-w-5xl",
+          isFullscreen
+            ? "h-[100dvh] sm:h-[calc(100dvh-2rem)]"
+            : "h-[calc(100vh-13rem)] sm:h-auto sm:aspect-[16/10]",
+        )}
         dir="ltr"
       >
         <div
@@ -250,16 +361,41 @@ export const BookReader = ({
             </>
           )}
         </div>
+
+        {/* Mobile tap zones for paging */}
+        {isMobile && (
+          <>
+            <button
+              type="button"
+              aria-label="الصفحة السابقة"
+              onClick={(e) => { e.stopPropagation(); go(isRTL ? "next" : "prev"); }}
+              className="absolute inset-y-0 left-0 w-1/3 bg-transparent"
+            />
+            <button
+              type="button"
+              aria-label="الصفحة التالية"
+              onClick={(e) => { e.stopPropagation(); go(isRTL ? "prev" : "next"); }}
+              className="absolute inset-y-0 right-0 w-1/3 bg-transparent"
+            />
+          </>
+        )}
+
         {translateLang && <TranslatePopover sourceLang={translateLang} containerRef={spreadRef} />}
       </div>
 
-      {translateLang && (
+      {translateLang && !isFullscreen && (
         <p className="text-[11px] sm:text-xs text-muted-foreground text-center -mt-2">
           💡 انقر على أي كلمة لترجمتها فورًا، أو حدّد جملة لترجمتها كاملة
         </p>
       )}
 
-      <div className="flex items-center gap-3 sm:gap-6 w-full justify-center">
+      <div
+        className={cn(
+          "flex items-center gap-3 sm:gap-6 w-full justify-center transition-all duration-300",
+          isFullscreen && "fixed bottom-3 left-1/2 -translate-x-1/2 w-auto bg-card/90 backdrop-blur border border-border/60 rounded-full px-4 py-1.5 shadow-soft z-[60]",
+          isFullscreen && (toolsVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-2 pointer-events-none"),
+        )}
+      >
         <Button variant="outline" size="icon" onClick={() => go("prev")} disabled={spread === 0} className="rounded-full h-10 w-10 sm:h-12 sm:w-12" aria-label="السابق">
           <ChevronLeft className="h-5 w-5" />
         </Button>
