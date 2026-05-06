@@ -119,7 +119,6 @@ export const BookReader = ({
     return () => document.removeEventListener("fullscreenchange", onFs);
   }, []);
 
-  const totalSpreads = Math.max(1, Math.ceil(pages.length / pagesPerSpread));
 
   const [spread, setSpread] = useState(() => {
     if (!bookId) return 0;
