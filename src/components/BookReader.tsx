@@ -119,6 +119,40 @@ export const BookReader = ({
     return () => document.removeEventListener("fullscreenchange", onFs);
   }, []);
 
+  const exitFullscreen = useCallback(async () => {
+    try {
+      if (document.fullscreenElement) await document.exitFullscreen?.();
+    } catch {}
+    setIsFullscreen(false);
+  }, []);
+
+  // Double-tap anywhere to exit fullscreen (mobile-friendly)
+  const lastTapRef = useRef<number>(0);
+  const handleDoubleTap = useCallback(() => {
+    if (!isFullscreen) return;
+    const now = Date.now();
+    if (now - lastTapRef.current < 320) {
+      exitFullscreen();
+      lastTapRef.current = 0;
+    } else {
+      lastTapRef.current = now;
+    }
+  }, [isFullscreen, exitFullscreen]);
+
+  // Android hardware back button → exit fullscreen first instead of leaving page
+  useEffect(() => {
+    if (!isFullscreen) return;
+    window.history.pushState({ rwbFullscreen: true }, "");
+    const onPop = () => { exitFullscreen(); };
+    window.addEventListener("popstate", onPop);
+    return () => {
+      window.removeEventListener("popstate", onPop);
+      if (window.history.state?.rwbFullscreen) {
+        try { window.history.back(); } catch {}
+      }
+    };
+  }, [isFullscreen, exitFullscreen]);
+
 
   const [spread, setSpread] = useState(() => {
     if (!bookId) return 0;
@@ -206,6 +240,8 @@ export const BookReader = ({
       ref={containerRef}
       onMouseMove={showTools}
       onTouchStart={showTools}
+      onDoubleClick={isFullscreen ? exitFullscreen : undefined}
+      onTouchEnd={handleDoubleTap}
       className={cn(
         "flex flex-col items-center gap-4 sm:gap-6 transition-colors",
         isFullscreen && "fixed inset-0 z-50 bg-background p-2 sm:p-4 overflow-auto justify-center",
