@@ -2540,7 +2540,6 @@ const allSeeds: Seed[] = [
   ...trueStorySeeds,
   ...trueStoryExtraSeeds,
   ...mostReadWorldwideSeeds,
-  ...massExpansionSeeds,
 ];
 
 const massExpansionSeeds: Seed[] = [
