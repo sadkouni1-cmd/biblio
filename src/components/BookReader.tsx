@@ -71,9 +71,54 @@ export const BookReader = ({
   language?: string;
 }) => {
   const isMobile = useIsMobile();
+  const containerRef = useRef<HTMLDivElement>(null);
   const spreadRef = useRef<HTMLDivElement>(null);
   const translateLang = language && language !== "ar" ? language : null;
   const pagesPerSpread = isMobile ? 1 : 2;
+  const totalSpreads = Math.max(1, Math.ceil(pages.length / pagesPerSpread));
+
+  const [isFullscreen, setIsFullscreen] = useState(false);
+  const [toolsVisible, setToolsVisible] = useState(true);
+  const hideTimerRef = useRef<number | null>(null);
+
+  const scheduleHide = useCallback(() => {
+    if (hideTimerRef.current) window.clearTimeout(hideTimerRef.current);
+    hideTimerRef.current = window.setTimeout(() => setToolsVisible(false), 2800);
+  }, []);
+
+  const showTools = useCallback(() => {
+    setToolsVisible(true);
+    scheduleHide();
+  }, [scheduleHide]);
+
+  useEffect(() => {
+    scheduleHide();
+    return () => {
+      if (hideTimerRef.current) window.clearTimeout(hideTimerRef.current);
+    };
+  }, [scheduleHide]);
+
+  const toggleFullscreen = useCallback(async () => {
+    const el = containerRef.current;
+    if (!el) return;
+    try {
+      if (!document.fullscreenElement) {
+        await el.requestFullscreen?.();
+      } else {
+        await document.exitFullscreen?.();
+      }
+    } catch {
+      // fallback: just toggle local state
+      setIsFullscreen((v) => !v);
+    }
+  }, []);
+
+  useEffect(() => {
+    const onFs = () => setIsFullscreen(!!document.fullscreenElement);
+    document.addEventListener("fullscreenchange", onFs);
+    return () => document.removeEventListener("fullscreenchange", onFs);
+  }, []);
+
   const totalSpreads = Math.max(1, Math.ceil(pages.length / pagesPerSpread));
 
   const [spread, setSpread] = useState(() => {
