@@ -240,6 +240,8 @@ export const BookReader = ({
       ref={containerRef}
       onMouseMove={showTools}
       onTouchStart={showTools}
+      onDoubleClick={isFullscreen ? exitFullscreen : undefined}
+      onTouchEnd={handleDoubleTap}
       className={cn(
         "flex flex-col items-center gap-4 sm:gap-6 transition-colors",
         isFullscreen && "fixed inset-0 z-50 bg-background p-2 sm:p-4 overflow-auto justify-center",
