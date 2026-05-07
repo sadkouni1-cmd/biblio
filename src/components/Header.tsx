@@ -92,24 +92,22 @@ export const Header = ({ onSearch, search }: { onSearch?: (v: string) => void; s
             </div>
           )}
 
-          {/* Mobile search toggle (always shown). On non-home pages it
+          {/* Mobile search toggle (shown on non-home pages). On non-home pages it
               navigates to home and auto-opens the search bar there. */}
-          <Button
-            variant="ghost"
-            size="icon"
-            className={`${hasInlineSearch ? "md:hidden" : ""} ${!hasInlineSearch ? "ml-auto" : "ml-auto md:ml-0"} h-9 w-9`}
-            onClick={() => {
-              if (hasInlineSearch) {
-                setSearchOpen(true);
-              } else {
+          {!isHome && (
+            <Button
+              variant="ghost"
+              size="icon"
+              className="ml-auto h-9 w-9"
+              onClick={() => {
                 navigate("/?focusSearch=1");
-              }
-            }}
-            aria-label="بحث"
-            title="بحث"
-          >
-            <Search className="h-5 w-5" />
-          </Button>
+              }}
+              aria-label="بحث"
+              title="بحث"
+            >
+              <Search className="h-5 w-5" />
+            </Button>
+          )}
 
 
           {(() => {
