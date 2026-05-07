@@ -86,6 +86,7 @@ const defaultProfileByCategory: Record<Category, PageProfile> = {
   trending: "long",
   science: "long",
   truestory: "long",
+  history: "epic",
 };
 
 const arabicCategoryLabel: Record<Category, string> = {
@@ -98,6 +99,7 @@ const arabicCategoryLabel: Record<Category, string> = {
   trending: "الكتب الأكثر رواجًا",
   science: "الصحة والعلوم",
   truestory: "القصص الحقيقية والسير",
+  history: "الكتب التاريخية",
 };
 
 const englishCategoryLabel: Record<Category, string> = {
@@ -110,6 +112,7 @@ const englishCategoryLabel: Record<Category, string> = {
   trending: "trending books",
   science: "health & science",
   truestory: "true stories & memoirs",
+  history: "history",
 };
 
 const frenchCategoryLabel: Record<Category, string> = {
@@ -122,6 +125,7 @@ const frenchCategoryLabel: Record<Category, string> = {
   trending: "les livres tendance",
   science: "la santé et la science",
   truestory: "les histoires vraies et mémoires",
+  history: "l'histoire",
 };
 
 const spanishCategoryLabel: Record<Category, string> = {
@@ -134,6 +138,7 @@ const spanishCategoryLabel: Record<Category, string> = {
   trending: "los libros tendencia",
   science: "la salud y la ciencia",
   truestory: "las historias reales y memorias",
+  history: "la historia",
 };
 
 const arParagraphs = [
