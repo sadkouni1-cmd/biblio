@@ -5,7 +5,7 @@ import stories from "@/assets/cover-stories.jpg";
 import audio from "@/assets/cover-audio.jpg";
 import novel from "@/assets/cover-novel.jpg";
 
-export type Category = "religious" | "philosophy" | "children" | "stories" | "novels" | "selfdev" | "trending" | "science" | "truestory";
+export type Category = "religious" | "philosophy" | "children" | "stories" | "novels" | "selfdev" | "trending" | "science" | "truestory" | "history";
 export type Lang = "ar" | "fr" | "en" | "es";
 type PageProfile = "short" | "medium" | "long" | "epic";
 
@@ -44,6 +44,7 @@ export const categories: { id: Category; label: string; labelEn: string; color: 
   { id: "stories", label: "قصص قصيرة", labelEn: "Short Stories", color: "hsl(var(--cat-stories))", icon: "📖" },
   { id: "novels", label: "روايات", labelEn: "Novels", color: "hsl(var(--cat-novel))", icon: "🌅" },
   { id: "truestory", label: "قصص حقيقية", labelEn: "True Stories", color: "hsl(var(--cat-stories))", icon: "📜" },
+  { id: "history", label: "تاريخ", labelEn: "History", color: "hsl(var(--cat-philosophy))", icon: "🏺" },
 ];
 
 export const languages: { id: Lang; label: string; flag: string }[] = [
@@ -64,6 +65,7 @@ const coverFor = (cat: Category) => {
     case "trending": return novel;
     case "science": return philosophy;
     case "truestory": return stories;
+    case "history": return philosophy;
   }
 };
 
@@ -84,6 +86,7 @@ const defaultProfileByCategory: Record<Category, PageProfile> = {
   trending: "long",
   science: "long",
   truestory: "long",
+  history: "epic",
 };
 
 const arabicCategoryLabel: Record<Category, string> = {
@@ -96,6 +99,7 @@ const arabicCategoryLabel: Record<Category, string> = {
   trending: "الكتب الأكثر رواجًا",
   science: "الصحة والعلوم",
   truestory: "القصص الحقيقية والسير",
+  history: "الكتب التاريخية",
 };
 
 const englishCategoryLabel: Record<Category, string> = {
@@ -108,6 +112,7 @@ const englishCategoryLabel: Record<Category, string> = {
   trending: "trending books",
   science: "health & science",
   truestory: "true stories & memoirs",
+  history: "history",
 };
 
 const frenchCategoryLabel: Record<Category, string> = {
@@ -120,6 +125,7 @@ const frenchCategoryLabel: Record<Category, string> = {
   trending: "les livres tendance",
   science: "la santé et la science",
   truestory: "les histoires vraies et mémoires",
+  history: "l'histoire",
 };
 
 const spanishCategoryLabel: Record<Category, string> = {
@@ -132,6 +138,7 @@ const spanishCategoryLabel: Record<Category, string> = {
   trending: "los libros tendencia",
   science: "la salud y la ciencia",
   truestory: "las historias reales y memorias",
+  history: "la historia",
 };
 
 const arParagraphs = [
@@ -2655,6 +2662,117 @@ const massExpansionSeeds: Seed[] = [
 ];
 
 allSeeds.push(...massExpansionSeeds);
+
+const historySeeds: Seed[] = [
+  // Arabic
+  { title: "البداية والنهاية", author: "ابن كثير", category: "history", language: "ar", description: "موسوعة في التاريخ الإسلامي والعالمي.", pageProfile: "epic" },
+  { title: "تاريخ الطبري (تاريخ الرسل والملوك)", author: "محمد بن جرير الطبري", category: "history", language: "ar", description: "أحد أهم المراجع في التاريخ الإسلامي.", pageProfile: "epic" },
+  { title: "مقدمة ابن خلدون", author: "ابن خلدون", category: "history", language: "ar", description: "أساس علم الاجتماع وفلسفة التاريخ.", pageProfile: "epic" },
+  { title: "تاريخ ابن خلدون (العبر)", author: "ابن خلدون", category: "history", language: "ar", description: "ديوان المبتدأ والخبر في تاريخ العرب والعجم والبربر.", pageProfile: "epic" },
+  { title: "الكامل في التاريخ", author: "ابن الأثير", category: "history", language: "ar", description: "موسوعة تاريخية شاملة.", pageProfile: "epic" },
+  { title: "مروج الذهب ومعادن الجوهر", author: "المسعودي", category: "history", language: "ar", description: "تاريخ وأخبار الأمم.", pageProfile: "epic" },
+  { title: "فتوح البلدان", author: "البلاذري", category: "history", language: "ar", description: "تاريخ الفتوحات الإسلامية الكبرى.", pageProfile: "long" },
+  { title: "السيرة النبوية", author: "ابن هشام", category: "history", language: "ar", description: "أشهر كتب السيرة.", pageProfile: "epic" },
+  { title: "زاد المعاد في هدي خير العباد", author: "ابن قيم الجوزية", category: "history", language: "ar", description: "في هدي النبي ﷺ وسيرته.", pageProfile: "epic" },
+  { title: "الرحيق المختوم", author: "صفي الرحمن المباركفوري", category: "history", language: "ar", description: "السيرة النبوية الفائزة بالمسابقة العالمية.", pageProfile: "long" },
+  { title: "فجر الإسلام", author: "أحمد أمين", category: "history", language: "ar", description: "تاريخ الحياة العقلية في صدر الإسلام.", pageProfile: "long" },
+  { title: "ضحى الإسلام", author: "أحمد أمين", category: "history", language: "ar", description: "الحضارة الإسلامية في العصر العباسي.", pageProfile: "long" },
+  { title: "ظهر الإسلام", author: "أحمد أمين", category: "history", language: "ar", description: "تاريخ الفكر الإسلامي.", pageProfile: "long" },
+  { title: "عصر المرابطين والموحدين", author: "محمد عبد الله عنان", category: "history", language: "ar", description: "تاريخ المغرب والأندلس.", pageProfile: "long" },
+  { title: "دولة الإسلام في الأندلس", author: "محمد عبد الله عنان", category: "history", language: "ar", description: "موسوعة عن الأندلس.", pageProfile: "epic" },
+  { title: "تاريخ الأندلس", author: "حسين مؤنس", category: "history", language: "ar", description: "من الفتح حتى السقوط.", pageProfile: "long" },
+  { title: "نهاية الأندلس وتاريخ العرب المتنصرين", author: "محمد عبد الله عنان", category: "history", language: "ar", description: "سقوط غرناطة ومصير المسلمين.", pageProfile: "long" },
+  { title: "الحضارة العربية الإسلامية", author: "شوقي ضيف", category: "history", language: "ar", description: "ملامح الحضارة وإسهاماتها.", pageProfile: "long" },
+  { title: "تاريخ الدولة العثمانية", author: "محمد فريد بك المحامي", category: "history", language: "ar", description: "نشأة الدولة العثمانية وامتدادها.", pageProfile: "epic" },
+  { title: "الدولة العثمانية عوامل النهوض وأسباب السقوط", author: "علي محمد الصلابي", category: "history", language: "ar", description: "قراءة تحليلية في تاريخ الدولة العثمانية.", pageProfile: "epic" },
+  { title: "صلاح الدين الأيوبي", author: "علي محمد الصلابي", category: "history", language: "ar", description: "البطل الذي حرر القدس.", pageProfile: "long" },
+  { title: "عمر بن الخطاب: شخصيته وعصره", author: "علي محمد الصلابي", category: "history", language: "ar", description: "سيرة الفاروق وعصره.", pageProfile: "epic" },
+  { title: "أبو بكر الصديق", author: "علي محمد الصلابي", category: "history", language: "ar", description: "سيرة الصديق وخلافته.", pageProfile: "long" },
+  { title: "تاريخ مصر الحديث", author: "جرجي زيدان", category: "history", language: "ar", description: "من الفتح العثماني إلى القرن العشرين.", pageProfile: "long" },
+  { title: "تاريخ التمدن الإسلامي", author: "جرجي زيدان", category: "history", language: "ar", description: "موسوعة في الحضارة الإسلامية.", pageProfile: "epic" },
+  { title: "حاضر العالم الإسلامي", author: "شكيب أرسلان", category: "history", language: "ar", description: "أوضاع المسلمين في العالم الحديث.", pageProfile: "long" },
+  { title: "لماذا تأخر المسلمون ولماذا تقدم غيرهم", author: "شكيب أرسلان", category: "history", language: "ar", description: "تحليل أسباب تأخر الأمة.", pageProfile: "long" },
+  { title: "موسوعة سفير لتاريخ مصر", author: "حسين مؤنس", category: "history", language: "ar", description: "تاريخ مصر عبر العصور.", pageProfile: "epic" },
+  { title: "الحملة الفرنسية على مصر", author: "عبد الرحمن الجبرتي", category: "history", language: "ar", description: "شاهد عيان على غزو نابليون.", pageProfile: "long" },
+  { title: "عجائب الآثار في التراجم والأخبار", author: "عبد الرحمن الجبرتي", category: "history", language: "ar", description: "تاريخ مصر في القرنين 18 و19.", pageProfile: "epic" },
+  { title: "تاريخ الفلسفة العربية", author: "حنا الفاخوري وخليل الجر", category: "history", language: "ar", description: "تطور الفلسفة عند المسلمين.", pageProfile: "epic" },
+  { title: "العرب في التاريخ", author: "برنارد لويس", category: "history", language: "ar", description: "تاريخ العرب من الجاهلية إلى العصر الحديث.", pageProfile: "long" },
+  { title: "موسوعة تاريخ المغرب", author: "إبراهيم حركات", category: "history", language: "ar", description: "تاريخ المغرب الأقصى.", pageProfile: "epic" },
+  { title: "تاريخ شمال إفريقيا", author: "شارل أندريه جوليان", category: "history", language: "ar", description: "من الفتح الإسلامي إلى الاستعمار.", pageProfile: "epic" },
+
+  // English
+  { title: "Sapiens: A Brief History of Humankind", author: "Yuval Noah Harari", category: "history", language: "en", description: "From the Stone Age to the modern world.", pageProfile: "epic" },
+  { title: "Guns, Germs, and Steel", author: "Jared Diamond", category: "history", language: "en", description: "The fates of human societies.", pageProfile: "epic" },
+  { title: "A People's History of the United States", author: "Howard Zinn", category: "history", language: "en", description: "American history from the bottom up.", pageProfile: "epic" },
+  { title: "The Silk Roads: A New History of the World", author: "Peter Frankopan", category: "history", language: "en", description: "Reorienting world history through the East.", pageProfile: "epic" },
+  { title: "Postwar: A History of Europe Since 1945", author: "Tony Judt", category: "history", language: "en", description: "Europe after the Second World War.", pageProfile: "epic" },
+  { title: "The Rise and Fall of the Third Reich", author: "William L. Shirer", category: "history", language: "en", description: "A definitive history of Nazi Germany.", pageProfile: "epic" },
+  { title: "A History of the Arab Peoples", author: "Albert Hourani", category: "history", language: "en", description: "From the rise of Islam to the modern era.", pageProfile: "epic" },
+  { title: "Lost Islamic History", author: "Firas Alkhateeb", category: "history", language: "en", description: "Reclaiming Muslim civilisation from the past.", pageProfile: "long" },
+  { title: "Destiny Disrupted", author: "Tamim Ansary", category: "history", language: "en", description: "A history of the world through Islamic eyes.", pageProfile: "long" },
+  { title: "1491", author: "Charles C. Mann", category: "history", language: "en", description: "New revelations of the Americas before Columbus.", pageProfile: "long" },
+  { title: "1776", author: "David McCullough", category: "history", language: "en", description: "The pivotal year of the American Revolution.", pageProfile: "long" },
+  { title: "John Adams", author: "David McCullough", category: "history", language: "en", description: "Biography of a Founding Father.", pageProfile: "epic" },
+  { title: "Team of Rivals", author: "Doris Kearns Goodwin", category: "history", language: "en", description: "The political genius of Abraham Lincoln.", pageProfile: "epic" },
+  { title: "The Wright Brothers", author: "David McCullough", category: "history", language: "en", description: "How they invented flight.", pageProfile: "long" },
+  { title: "SPQR: A History of Ancient Rome", author: "Mary Beard", category: "history", language: "en", description: "A new look at Roman history.", pageProfile: "epic" },
+  { title: "The Histories", author: "Herodotus", category: "history", language: "en", description: "The first work of history in Western literature.", pageProfile: "epic" },
+  { title: "The History of the Peloponnesian War", author: "Thucydides", category: "history", language: "en", description: "The classic account of war between Athens and Sparta.", pageProfile: "epic" },
+  { title: "The Decline and Fall of the Roman Empire", author: "Edward Gibbon", category: "history", language: "en", description: "A monumental history of Rome.", pageProfile: "epic" },
+  { title: "A Short History of Nearly Everything", author: "Bill Bryson", category: "history", language: "en", description: "From the Big Bang to the rise of civilisation.", pageProfile: "epic" },
+  { title: "The Crusades Through Arab Eyes", author: "Amin Maalouf", category: "history", language: "en", description: "The Crusades from the Muslim perspective.", pageProfile: "long" },
+  { title: "Genghis Khan and the Making of the Modern World", author: "Jack Weatherford", category: "history", language: "en", description: "How the Mongols shaped our world.", pageProfile: "long" },
+  { title: "The Guns of August", author: "Barbara Tuchman", category: "history", language: "en", description: "The outbreak of World War I.", pageProfile: "epic" },
+  { title: "A Distant Mirror", author: "Barbara Tuchman", category: "history", language: "en", description: "The calamitous 14th century.", pageProfile: "epic" },
+  { title: "The Better Angels of Our Nature", author: "Steven Pinker", category: "history", language: "en", description: "Why violence has declined.", pageProfile: "epic" },
+  { title: "The Diary of a Young Girl", author: "Anne Frank", category: "history", language: "en", description: "A girl's life in hiding during WWII.", pageProfile: "long" },
+  { title: "Night", author: "Elie Wiesel", category: "history", language: "en", description: "A Holocaust memoir.", pageProfile: "medium" },
+  { title: "The Splendid and the Vile", author: "Erik Larson", category: "history", language: "en", description: "Churchill, family and defiance during the Blitz.", pageProfile: "long" },
+  { title: "Alexander Hamilton", author: "Ron Chernow", category: "history", language: "en", description: "The biography that inspired the musical.", pageProfile: "epic" },
+  { title: "The Warmth of Other Suns", author: "Isabel Wilkerson", category: "history", language: "en", description: "The epic story of America's Great Migration.", pageProfile: "epic" },
+  { title: "Empire of the Summer Moon", author: "S. C. Gwynne", category: "history", language: "en", description: "Quanah Parker and the rise and fall of the Comanches.", pageProfile: "long" },
+
+  // French
+  { title: "Histoire de France", author: "Jules Michelet", category: "history", language: "fr", description: "Une fresque monumentale de l'histoire française.", pageProfile: "epic" },
+  { title: "La Méditerranée et le monde méditerranéen à l'époque de Philippe II", author: "Fernand Braudel", category: "history", language: "fr", description: "Chef-d'œuvre de l'École des Annales.", pageProfile: "epic" },
+  { title: "Civilisation matérielle, économie et capitalisme", author: "Fernand Braudel", category: "history", language: "fr", description: "Une histoire mondiale de l'économie.", pageProfile: "epic" },
+  { title: "Histoire des Croisades", author: "René Grousset", category: "history", language: "fr", description: "La référence sur les Croisades.", pageProfile: "epic" },
+  { title: "L'Empire des steppes", author: "René Grousset", category: "history", language: "fr", description: "Attila, Gengis Khan, Tamerlan.", pageProfile: "epic" },
+  { title: "Sapiens : Une brève histoire de l'humanité", author: "Yuval Noah Harari", category: "history", language: "fr", description: "De la préhistoire à nos jours.", pageProfile: "epic" },
+  { title: "Les Croisades vues par les Arabes", author: "Amin Maalouf", category: "history", language: "fr", description: "Les Croisades du point de vue arabe.", pageProfile: "long" },
+  { title: "Léon l'Africain", author: "Amin Maalouf", category: "history", language: "fr", description: "Roman historique méditerranéen.", pageProfile: "long" },
+  { title: "Samarcande", author: "Amin Maalouf", category: "history", language: "fr", description: "Sur les traces d'Omar Khayyam.", pageProfile: "long" },
+  { title: "Histoire de la Révolution française", author: "Jules Michelet", category: "history", language: "fr", description: "L'épopée révolutionnaire.", pageProfile: "epic" },
+  { title: "L'Ancien Régime et la Révolution", author: "Alexis de Tocqueville", category: "history", language: "fr", description: "Analyse classique de la France révolutionnaire.", pageProfile: "long" },
+  { title: "De la démocratie en Amérique", author: "Alexis de Tocqueville", category: "history", language: "fr", description: "Étude fondatrice de la démocratie moderne.", pageProfile: "epic" },
+  { title: "Histoire de la Seconde Guerre mondiale", author: "Winston Churchill", category: "history", language: "fr", description: "Mémoires et histoire mêlées.", pageProfile: "epic" },
+  { title: "Le Monde d'hier", author: "Stefan Zweig", category: "history", language: "fr", description: "Souvenirs d'un Européen.", pageProfile: "long" },
+  { title: "Apocalypse : la 2e guerre mondiale", author: "Daniel Costelle & Isabelle Clarke", category: "history", language: "fr", description: "Récit illustré de la guerre.", pageProfile: "long" },
+  { title: "Les Rois maudits", author: "Maurice Druon", category: "history", language: "fr", description: "Saga historique sur les derniers Capétiens.", pageProfile: "epic" },
+  { title: "Saint Louis", author: "Jacques Le Goff", category: "history", language: "fr", description: "Biographie magistrale du roi de France.", pageProfile: "epic" },
+  { title: "L'Histoire commence à Sumer", author: "Samuel Noah Kramer", category: "history", language: "fr", description: "Aux origines de la civilisation.", pageProfile: "long" },
+  { title: "Histoire de l'Algérie coloniale", author: "Charles-Robert Ageron", category: "history", language: "fr", description: "L'Algérie sous la France.", pageProfile: "long" },
+  { title: "Le Maroc et l'Europe", author: "Daniel Rivet", category: "history", language: "fr", description: "Quatre siècles d'histoire commune.", pageProfile: "long" },
+
+  // Spanish
+  { title: "Sapiens: De animales a dioses", author: "Yuval Noah Harari", category: "history", language: "es", description: "Breve historia de la humanidad.", pageProfile: "epic" },
+  { title: "Las venas abiertas de América Latina", author: "Eduardo Galeano", category: "history", language: "es", description: "Historia del saqueo del continente.", pageProfile: "long" },
+  { title: "Memoria del fuego", author: "Eduardo Galeano", category: "history", language: "es", description: "Trilogía sobre la historia de América.", pageProfile: "epic" },
+  { title: "Breve historia de España", author: "Fernando García de Cortázar", category: "history", language: "es", description: "Una visión panorámica.", pageProfile: "long" },
+  { title: "Imperiofobia y leyenda negra", author: "María Elvira Roca Barea", category: "history", language: "es", description: "Roma, Rusia, Estados Unidos y el Imperio español.", pageProfile: "long" },
+  { title: "La conquista de América", author: "Tzvetan Todorov", category: "history", language: "es", description: "El problema del otro.", pageProfile: "long" },
+  { title: "Historia general de las cosas de Nueva España", author: "Bernardino de Sahagún", category: "history", language: "es", description: "Crónica fundacional del mundo azteca.", pageProfile: "epic" },
+  { title: "Historia verdadera de la conquista de la Nueva España", author: "Bernal Díaz del Castillo", category: "history", language: "es", description: "Crónica de un soldado de Cortés.", pageProfile: "epic" },
+  { title: "Comentarios reales de los Incas", author: "Inca Garcilaso de la Vega", category: "history", language: "es", description: "Historia del Tahuantinsuyo.", pageProfile: "epic" },
+  { title: "Al-Ándalus contra España", author: "Serafín Fanjul", category: "history", language: "es", description: "Forja del mito andalusí.", pageProfile: "long" },
+  { title: "La España vacía", author: "Sergio del Molino", category: "history", language: "es", description: "Viaje por un país que nunca fue.", pageProfile: "long" },
+  { title: "Anatomía de un instante", author: "Javier Cercas", category: "history", language: "es", description: "El golpe del 23-F.", pageProfile: "long" },
+  { title: "Patria o muerte", author: "Loret de Mola", category: "history", language: "es", description: "La Cuba contemporánea.", pageProfile: "long" },
+  { title: "Bolívar", author: "Marie Arana", category: "history", language: "es", description: "El libertador americano.", pageProfile: "epic" },
+  { title: "1492: El nacimiento de la modernidad", author: "Felipe Fernández-Armesto", category: "history", language: "es", description: "El año que cambió el mundo.", pageProfile: "long" },
+];
+
+allSeeds.push(...historySeeds);
 
 export const books: Book[] = allSeeds.map((seed, index) => ({
   id: String(index + 1),
