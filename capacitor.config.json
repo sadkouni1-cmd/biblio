@@ -1,0 +1,9 @@
+{
+  "appId": "app.lovable.2a336d0a870a406a9a3149b4f633367f",
+  "appName": "kutub-bob",
+  "webDir": "dist",
+  "server": {
+    "url": "https://2a336d0a-870a-406a-9a31-49b4f633367f.lovableproject.com?forceHideBadge=true",
+    "cleartext": true
+  }
+}
