@@ -5,7 +5,7 @@ import stories from "@/assets/cover-stories.jpg";
 import audio from "@/assets/cover-audio.jpg";
 import novel from "@/assets/cover-novel.jpg";
 
-export type Category = "religious" | "philosophy" | "children" | "stories" | "novels" | "selfdev" | "trending" | "science" | "truestory";
+export type Category = "religious" | "philosophy" | "children" | "stories" | "novels" | "selfdev" | "trending" | "science" | "truestory" | "history";
 export type Lang = "ar" | "fr" | "en" | "es";
 type PageProfile = "short" | "medium" | "long" | "epic";
 
