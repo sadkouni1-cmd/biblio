@@ -44,6 +44,7 @@ export const categories: { id: Category; label: string; labelEn: string; color: 
   { id: "stories", label: "قصص قصيرة", labelEn: "Short Stories", color: "hsl(var(--cat-stories))", icon: "📖" },
   { id: "novels", label: "روايات", labelEn: "Novels", color: "hsl(var(--cat-novel))", icon: "🌅" },
   { id: "truestory", label: "قصص حقيقية", labelEn: "True Stories", color: "hsl(var(--cat-stories))", icon: "📜" },
+  { id: "history", label: "تاريخ", labelEn: "History", color: "hsl(var(--cat-philosophy))", icon: "🏺" },
 ];
 
 export const languages: { id: Lang; label: string; flag: string }[] = [
