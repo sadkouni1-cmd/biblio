@@ -65,6 +65,7 @@ const coverFor = (cat: Category) => {
     case "trending": return novel;
     case "science": return philosophy;
     case "truestory": return stories;
+    case "history": return philosophy;
   }
 };
 
