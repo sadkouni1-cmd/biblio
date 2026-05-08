@@ -65,7 +65,7 @@ export const Header = ({ onSearch, search }: { onSearch?: (v: string) => void; s
     <>
       <header className="sticky top-0 z-40 w-full border-b border-border/60 bg-background/85 backdrop-blur-md">
         <div className="container flex h-14 sm:h-16 items-center gap-2 sm:gap-4 px-3 sm:px-6">
-          <Link to="/" className="order-last flex items-center gap-2 group min-w-0 ml-2">
+          <Link to="/" className="order-last ml-auto flex items-center gap-2 group min-w-0">
             <div className="rounded-md bg-gradient-gold p-1.5 sm:p-2 shadow-soft group-hover:scale-110 transition-smooth shrink-0">
               <BookOpen className="h-4 w-4 sm:h-5 sm:w-5 text-primary" />
             </div>
