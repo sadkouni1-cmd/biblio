@@ -98,7 +98,7 @@ export const Header = ({ onSearch, search }: { onSearch?: (v: string) => void; s
             <Button
               variant="ghost"
               size="icon"
-              className="ml-auto h-9 w-9"
+              className="h-9 w-9"
               onClick={() => {
                 navigate("/?focusSearch=1");
               }}
