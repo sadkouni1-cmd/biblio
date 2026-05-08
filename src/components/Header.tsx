@@ -46,7 +46,7 @@ export const Header = ({ onSearch, search }: { onSearch?: (v: string) => void; s
               <BookOpen className="h-4 w-4 sm:h-5 sm:w-5 text-primary" />
             </div>
           </div>
-          <div className="hidden xs:flex sm:flex flex-col leading-[1] min-w-0" dir="ltr">
+          <div className="flex flex-col leading-[1] min-w-0" dir="ltr">
             <span className="font-display text-[11px] sm:text-sm font-semibold text-primary tracking-wide">Read</span>
             <span className="font-display text-[11px] sm:text-sm font-semibold text-primary tracking-wide my-0.5">With</span>
             <span className="font-display text-[11px] sm:text-sm font-semibold text-accent tracking-wide">Bob</span>
