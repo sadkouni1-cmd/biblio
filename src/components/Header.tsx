@@ -119,7 +119,7 @@ export const Header = ({ onSearch, search }: { onSearch?: (v: string) => void; s
                 variant="ghost"
                 size="icon"
                 onClick={() => (isDark ? setTheme("light") : setTheme("dark"))}
-                className={`${onSearch ? "" : "ml-auto"} h-9 w-9 shrink-0`}
+                className="h-9 w-9 shrink-0"
                 aria-label={label}
                 title={label}
               >
