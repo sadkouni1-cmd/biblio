@@ -64,44 +64,42 @@ export const Header = ({ onSearch, search }: { onSearch?: (v: string) => void; s
   return (
     <>
       <header className="sticky top-0 z-40 w-full border-b border-border/60 bg-background/85 backdrop-blur-md">
-        <div className="container flex h-14 sm:h-16 items-center gap-2 sm:gap-4 px-3 sm:px-6">
-          <Link to="/" className="order-last ml-auto flex items-center gap-2 group min-w-0">
+        <div className="container flex h-14 sm:h-16 items-center gap-2 sm:gap-3 px-3 sm:px-6">
+          {/* Logo + name on the far LEFT (order-last in RTL pushes to visual left) */}
+          <Link to="/" className="order-last me-auto flex items-center gap-2 group min-w-0">
             <div className="rounded-md bg-gradient-gold p-1.5 sm:p-2 shadow-soft group-hover:scale-110 transition-smooth shrink-0">
               <BookOpen className="h-4 w-4 sm:h-5 sm:w-5 text-primary" />
             </div>
-            <div className="flex flex-col leading-[1.05] min-w-0 items-start">
+            <div className="flex flex-col leading-[1.05] min-w-0 items-start" dir="ltr">
               <span className="font-display text-sm sm:text-xl font-semibold text-primary">Read</span>
               <span className="font-display text-sm sm:text-xl font-semibold text-primary">With</span>
               <span className="font-display text-sm sm:text-xl font-semibold text-primary">Bob</span>
-              <span className="hidden sm:block mt-0.5 text-[10px] text-muted-foreground tracking-widest uppercase">
-                by Ayoub Sadkouni
-              </span>
             </div>
           </Link>
 
-          {/* Desktop search (only when an onSearch handler is provided) */}
+          {/* Search field — always visible, searches any book */}
           {hasInlineSearch && (
-            <div className="hidden md:flex flex-1 max-w-md relative">
-              <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+            <div className="relative flex-1 max-w-md min-w-0">
+              <Search className="absolute right-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground pointer-events-none" />
               <Input
-                value={search}
+                value={search ?? ""}
                 onChange={(e) => onSearch!(e.target.value)}
-                placeholder="ابحث عن كتاب أو مؤلف..."
-                className="pl-9 bg-card/60 border-border/70"
+                placeholder="ابحث عن أي كتاب..."
+                inputMode="search"
+                enterKeyHint="search"
+                style={{ fontSize: "16px" }}
+                className="pr-9 h-9 sm:h-10 bg-card/60 border-border/70"
               />
             </div>
           )}
 
-          {/* Mobile search toggle (shown on non-home pages). On non-home pages it
-              navigates to home and auto-opens the search bar there. */}
+          {/* Mobile search shortcut on non-home pages */}
           {!isHome && (
             <Button
               variant="ghost"
               size="icon"
-              className="h-9 w-9"
-              onClick={() => {
-                navigate("/?focusSearch=1");
-              }}
+              className="h-9 w-9 shrink-0"
+              onClick={() => navigate("/?focusSearch=1")}
               aria-label="بحث"
               title="بحث"
             >
@@ -109,7 +107,7 @@ export const Header = ({ onSearch, search }: { onSearch?: (v: string) => void; s
             </Button>
           )}
 
-
+          {/* Icons cluster on the far RIGHT (start of RTL flex) */}
           {(() => {
             const isDark = theme === "dark";
             const Icon = isDark ? Sun : Moon;
@@ -144,7 +142,7 @@ export const Header = ({ onSearch, search }: { onSearch?: (v: string) => void; s
             }
           />
 
-          <Button asChild variant="ghost" size="sm" className="px-2 sm:px-3">
+          <Button asChild variant="ghost" size="sm" className="px-2 sm:px-3 shrink-0">
             <Link to="/my-books" className="flex items-center gap-1.5 sm:gap-2">
               <Library className="h-4 w-4" />
               <span className="font-display text-sm sm:text-base hidden sm:inline">كتبي</span>
