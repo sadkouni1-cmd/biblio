@@ -65,15 +65,15 @@ export const Header = ({ onSearch, search }: { onSearch?: (v: string) => void; s
     <>
       <header className="sticky top-0 z-40 w-full border-b border-border/60 bg-background/85 backdrop-blur-md">
         <div className="container flex h-14 sm:h-16 items-center gap-2 sm:gap-4 px-3 sm:px-6">
-          <Link to="/" className="flex items-center gap-2 group min-w-0">
+          <Link to="/" className="order-last flex items-center gap-2 group min-w-0 ml-2">
             <div className="rounded-md bg-gradient-gold p-1.5 sm:p-2 shadow-soft group-hover:scale-110 transition-smooth shrink-0">
               <BookOpen className="h-4 w-4 sm:h-5 sm:w-5 text-primary" />
             </div>
-            <div className="flex flex-col leading-none min-w-0">
-              <span className="font-display text-base sm:text-2xl font-semibold text-primary truncate">
-                Read With Bob
-              </span>
-              <span className="hidden sm:block text-[10px] text-muted-foreground tracking-widest uppercase">
+            <div className="flex flex-col leading-[1.05] min-w-0 items-start">
+              <span className="font-display text-sm sm:text-xl font-semibold text-primary">Read</span>
+              <span className="font-display text-sm sm:text-xl font-semibold text-primary">With</span>
+              <span className="font-display text-sm sm:text-xl font-semibold text-primary">Bob</span>
+              <span className="hidden sm:block mt-0.5 text-[10px] text-muted-foreground tracking-widest uppercase">
                 by Ayoub Sadkouni
               </span>
             </div>
