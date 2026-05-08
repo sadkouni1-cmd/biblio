@@ -81,7 +81,7 @@ export const Header = ({ onSearch, search }: { onSearch?: (v: string) => void; s
 
           {/* Desktop search (only when an onSearch handler is provided) */}
           {hasInlineSearch && (
-            <div className="ml-auto hidden md:flex flex-1 max-w-md relative">
+            <div className="hidden md:flex flex-1 max-w-md relative">
               <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
               <Input
                 value={search}
