@@ -13,8 +13,10 @@ export const Header = ({ onSearch, search }: { onSearch?: (v: string) => void; s
   const hasInlineSearch = typeof onSearch === "function";
   const [focused, setFocused] = useState(false);
   const [mobileSearchOpen, setMobileSearchOpen] = useState(false);
+  const [desktopSearchOpen, setDesktopSearchOpen] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
   const mobileInputRef = useRef<HTMLInputElement>(null);
+  const desktopSearchWrapRef = useRef<HTMLDivElement>(null);
   const { theme, setTheme } = useTheme();
 
   useEffect(() => {
@@ -22,8 +24,11 @@ export const Header = ({ onSearch, search }: { onSearch?: (v: string) => void; s
     const params = new URLSearchParams(location.search);
     if (params.get("focusSearch") !== "1") return;
     const t = setTimeout(() => {
-      setMobileSearchOpen(true);
-      (mobileInputRef.current ?? inputRef.current)?.focus();
+      if (window.matchMedia("(min-width: 768px)").matches) {
+        setDesktopSearchOpen(true);
+      } else {
+        setMobileSearchOpen(true);
+      }
     }, 80);
     const cleaned = location.pathname + location.hash;
     navigate(cleaned, { replace: true });
@@ -31,9 +36,45 @@ export const Header = ({ onSearch, search }: { onSearch?: (v: string) => void; s
   }, [isHome, hasInlineSearch, location.search, location.pathname, location.hash, navigate]);
 
   useEffect(() => {
-    if (mobileSearchOpen) {
-      setTimeout(() => mobileInputRef.current?.focus(), 50);
-    }
+    if (mobileSearchOpen) setTimeout(() => mobileInputRef.current?.focus(), 50);
+  }, [mobileSearchOpen]);
+
+  useEffect(() => {
+    if (desktopSearchOpen) setTimeout(() => inputRef.current?.focus(), 60);
+  }, [desktopSearchOpen]);
+
+  // Close desktop search on outside click / Escape
+  useEffect(() => {
+    if (!desktopSearchOpen) return;
+    const onPointer = (e: PointerEvent) => {
+      const el = desktopSearchWrapRef.current;
+      if (el && !el.contains(e.target as Node)) {
+        setDesktopSearchOpen(false);
+        setFocused(false);
+      }
+    };
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") {
+        setDesktopSearchOpen(false);
+        setFocused(false);
+      }
+    };
+    document.addEventListener("pointerdown", onPointer);
+    document.addEventListener("keydown", onKey);
+    return () => {
+      document.removeEventListener("pointerdown", onPointer);
+      document.removeEventListener("keydown", onKey);
+    };
+  }, [desktopSearchOpen]);
+
+  // Close mobile search on outside click / Escape
+  useEffect(() => {
+    if (!mobileSearchOpen) return;
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") setMobileSearchOpen(false);
+    };
+    document.addEventListener("keydown", onKey);
+    return () => document.removeEventListener("keydown", onKey);
   }, [mobileSearchOpen]);
 
   const isDark = theme === "dark";
@@ -114,14 +155,24 @@ export const Header = ({ onSearch, search }: { onSearch?: (v: string) => void; s
           aria-label="إجراءات سريعة"
         >
 
-          {/* Mobile search trigger */}
+          {/* Search trigger (mobile + desktop) */}
           {hasInlineSearch ? (
             <Button
               variant="ghost"
               size="icon"
-              className="md:hidden h-9 w-9 rounded-full hover:bg-secondary"
-              onClick={() => setMobileSearchOpen((v) => !v)}
+              className={[
+                "h-9 w-9 rounded-full hover:bg-secondary transition-colors",
+                desktopSearchOpen || mobileSearchOpen ? "bg-secondary text-primary" : "",
+              ].join(" ")}
+              onClick={() => {
+                if (window.matchMedia("(min-width: 768px)").matches) {
+                  setDesktopSearchOpen((v) => !v);
+                } else {
+                  setMobileSearchOpen((v) => !v);
+                }
+              }}
               aria-label="بحث"
+              aria-expanded={desktopSearchOpen || mobileSearchOpen}
               title="بحث"
             >
               <Search className="h-[18px] w-[18px]" />
@@ -140,6 +191,7 @@ export const Header = ({ onSearch, search }: { onSearch?: (v: string) => void; s
           )}
 
           <span className="h-5 w-px bg-border/60" aria-hidden />
+
 
           <Button
             variant="ghost"
@@ -183,13 +235,23 @@ export const Header = ({ onSearch, search }: { onSearch?: (v: string) => void; s
           </Button>
         </nav>
 
-        {/* FAR LEFT (RTL end): Search (desktop only when home) */}
+        {/* FAR LEFT (RTL end): Desktop search — smoothly expands when toggled */}
         {hasInlineSearch && (
-          <div className="hidden md:block w-64 lg:w-80 shrink-0">
+          <div
+            ref={desktopSearchWrapRef}
+            className={[
+              "hidden md:block shrink-0 overflow-hidden transition-[width,opacity,margin] duration-300 ease-out",
+              desktopSearchOpen
+                ? "w-64 lg:w-80 opacity-100 ms-1"
+                : "w-0 opacity-0 ms-0 pointer-events-none",
+            ].join(" ")}
+            aria-hidden={!desktopSearchOpen}
+          >
             <SearchPill inputRef={inputRef} />
           </div>
         )}
       </div>
+
 
 
       {/* Mobile search drawer — slides down under header */}
