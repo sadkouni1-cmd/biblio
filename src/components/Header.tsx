@@ -235,13 +235,23 @@ export const Header = ({ onSearch, search }: { onSearch?: (v: string) => void; s
           </Button>
         </nav>
 
-        {/* FAR LEFT (RTL end): Search (desktop only when home) */}
+        {/* FAR LEFT (RTL end): Desktop search — smoothly expands when toggled */}
         {hasInlineSearch && (
-          <div className="hidden md:block w-64 lg:w-80 shrink-0">
+          <div
+            ref={desktopSearchWrapRef}
+            className={[
+              "hidden md:block shrink-0 overflow-hidden transition-[width,opacity,margin] duration-300 ease-out",
+              desktopSearchOpen
+                ? "w-64 lg:w-80 opacity-100 ms-1"
+                : "w-0 opacity-0 ms-0 pointer-events-none",
+            ].join(" ")}
+            aria-hidden={!desktopSearchOpen}
+          >
             <SearchPill inputRef={inputRef} />
           </div>
         )}
       </div>
+
 
 
       {/* Mobile search drawer — slides down under header */}
