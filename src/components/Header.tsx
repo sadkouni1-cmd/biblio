@@ -182,7 +182,15 @@ export const Header = ({ onSearch, search }: { onSearch?: (v: string) => void; s
             </Link>
           </Button>
         </nav>
+
+        {/* FAR LEFT (RTL end): Search (desktop only when home) */}
+        {hasInlineSearch && (
+          <div className="hidden md:block w-64 lg:w-80 shrink-0">
+            <SearchPill inputRef={inputRef} />
+          </div>
+        )}
       </div>
+
 
       {/* Mobile search drawer — slides down under header */}
       {hasInlineSearch && (
