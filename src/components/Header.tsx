@@ -89,10 +89,10 @@ export const Header = ({ onSearch, search }: { onSearch?: (v: string) => void; s
   return (
     <header className="sticky top-0 z-40 w-full border-b border-border/50 bg-background/70 backdrop-blur-xl supports-[backdrop-filter]:bg-background/60">
       <div className="container flex h-16 sm:h-[72px] items-center gap-3 px-3 sm:px-6">
-        {/* LEFT: Logo */}
+        {/* FAR RIGHT (RTL start): Logo */}
         <Link
           to="/"
-          className="order-last me-auto flex items-center gap-2 sm:gap-3 group min-w-0 shrink-0"
+          className="flex items-center gap-2 sm:gap-3 group min-w-0 shrink-0"
           aria-label="Read With Bob — الصفحة الرئيسية"
         >
           <div className="relative shrink-0">
@@ -108,18 +108,12 @@ export const Header = ({ onSearch, search }: { onSearch?: (v: string) => void; s
           </div>
         </Link>
 
-        {/* CENTER: Search (desktop only when home) */}
-        {hasInlineSearch && (
-          <div className="hidden md:block flex-1 min-w-0 max-w-xl">
-            <SearchPill inputRef={inputRef} />
-          </div>
-        )}
-
-        {/* RIGHT: Unified action bar — clean, professional, evenly spaced */}
+        {/* CENTER: Unified action bar */}
         <nav
-          className="flex items-center gap-1 rounded-full bg-card/70 border border-border/50 p-1 backdrop-blur-sm shrink-0 shadow-soft"
+          className="mx-auto flex items-center gap-1 rounded-full bg-card/70 border border-border/50 p-1 backdrop-blur-sm shrink-0 shadow-soft"
           aria-label="إجراءات سريعة"
         >
+
           {/* Mobile search trigger */}
           {hasInlineSearch ? (
             <Button
