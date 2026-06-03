@@ -155,14 +155,24 @@ export const Header = ({ onSearch, search }: { onSearch?: (v: string) => void; s
           aria-label="إجراءات سريعة"
         >
 
-          {/* Mobile search trigger */}
+          {/* Search trigger (mobile + desktop) */}
           {hasInlineSearch ? (
             <Button
               variant="ghost"
               size="icon"
-              className="md:hidden h-9 w-9 rounded-full hover:bg-secondary"
-              onClick={() => setMobileSearchOpen((v) => !v)}
+              className={[
+                "h-9 w-9 rounded-full hover:bg-secondary transition-colors",
+                desktopSearchOpen || mobileSearchOpen ? "bg-secondary text-primary" : "",
+              ].join(" ")}
+              onClick={() => {
+                if (window.matchMedia("(min-width: 768px)").matches) {
+                  setDesktopSearchOpen((v) => !v);
+                } else {
+                  setMobileSearchOpen((v) => !v);
+                }
+              }}
               aria-label="بحث"
+              aria-expanded={desktopSearchOpen || mobileSearchOpen}
               title="بحث"
             >
               <Search className="h-[18px] w-[18px]" />
@@ -181,6 +191,7 @@ export const Header = ({ onSearch, search }: { onSearch?: (v: string) => void; s
           )}
 
           <span className="h-5 w-px bg-border/60" aria-hidden />
+
 
           <Button
             variant="ghost"
