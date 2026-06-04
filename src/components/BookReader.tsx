@@ -64,11 +64,13 @@ export const BookReader = ({
   isRTL,
   bookId,
   language,
+  illustration,
 }: {
   pages: string[];
   isRTL: boolean;
   bookId?: string;
   language?: string;
+  illustration?: string;
 }) => {
   const isMobile = useIsMobile();
   const containerRef = useRef<HTMLDivElement>(null);
