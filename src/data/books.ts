@@ -4,6 +4,14 @@ import childrenCover from "@/assets/cover-children.jpg";
 import stories from "@/assets/cover-stories.jpg";
 import audio from "@/assets/cover-audio.jpg";
 import novel from "@/assets/cover-novel.jpg";
+import kidsFox from "@/assets/kids-fox.jpg";
+import kidsCarpet from "@/assets/kids-carpet.jpg";
+import kidsRabbit from "@/assets/kids-rabbit.jpg";
+import kidsLantern from "@/assets/kids-lantern.jpg";
+import kidsSea from "@/assets/kids-sea.jpg";
+import kidsAnimals from "@/assets/kids-animals.jpg";
+
+export const kidsIllustrations = [kidsFox, kidsCarpet, kidsRabbit, kidsLantern, kidsSea, kidsAnimals];
 
 export type Category = "religious" | "philosophy" | "children" | "stories" | "novels" | "selfdev" | "trending" | "science" | "truestory" | "history";
 export type Lang = "ar" | "fr" | "en" | "es";
