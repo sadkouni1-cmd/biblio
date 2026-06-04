@@ -4,6 +4,14 @@ import childrenCover from "@/assets/cover-children.jpg";
 import stories from "@/assets/cover-stories.jpg";
 import audio from "@/assets/cover-audio.jpg";
 import novel from "@/assets/cover-novel.jpg";
+import kidsFox from "@/assets/kids-fox.jpg";
+import kidsCarpet from "@/assets/kids-carpet.jpg";
+import kidsRabbit from "@/assets/kids-rabbit.jpg";
+import kidsLantern from "@/assets/kids-lantern.jpg";
+import kidsSea from "@/assets/kids-sea.jpg";
+import kidsAnimals from "@/assets/kids-animals.jpg";
+
+export const kidsIllustrations = [kidsFox, kidsCarpet, kidsRabbit, kidsLantern, kidsSea, kidsAnimals];
 
 export type Category = "religious" | "philosophy" | "children" | "stories" | "novels" | "selfdev" | "trending" | "science" | "truestory" | "history";
 export type Lang = "ar" | "fr" | "en" | "es";
@@ -21,6 +29,7 @@ export interface Book {
   pageCount: number;
   duration?: string;
   rating: number;
+  illustration?: string;
 }
 
 interface Seed {
@@ -32,6 +41,8 @@ interface Seed {
   duration?: string;
   rating?: number;
   pageProfile?: PageProfile;
+  cover?: string;
+  illustration?: string;
 }
 
 export const categories: { id: Category; label: string; labelEn: string; color: string; icon: string }[] = [
@@ -2828,18 +2839,76 @@ const historySeeds: Seed[] = [
 
 allSeeds.push(...historySeeds);
 
+// Mass library of illustrated Arabic children's stories — each gets a colorful illustration
+const arabicKidsIllustratedTitles: Array<[string, string, string]> = [
+  ["الثعلب الذكي والعنب", "حكاية شعبية", "حكاية كلاسيكية عن الذكاء والصبر."],
+  ["الأسد والفأر", "إيسوب (مترجم)", "صداقة جميلة بين الكبير والصغير."],
+  ["الأرنب والسلحفاة", "إيسوب (مترجم)", "البطء والثبات يفوزان في النهاية."],
+  ["الراعي الكذاب", "إيسوب (مترجم)", "درس مهم عن الصدق والأمانة."],
+  ["النملة والصرصور", "إيسوب (مترجم)", "قيمة العمل والاستعداد للمستقبل."],
+  ["الغراب العطشان", "إيسوب (مترجم)", "الذكاء يحل أصعب المشاكل."],
+  ["الديك الذهبي", "حكاية شعبية", "حكاية مليئة بالألوان والمغامرة."],
+  ["العصفور الصغير والشجرة", "كامل كيلاني", "قصة جميلة عن الصداقة والطبيعة."],
+  ["الفيل الصغير لولو", "قصة عربية", "مغامرات فيل لطيف يتعلم كل يوم."],
+  ["القط المشاغب مشمش", "قصة عربية", "حكايات طريفة لقط فضولي."],
+  ["البطة الصغيرة الشجاعة", "قصة عربية", "بطة تتعلم العوم لأول مرة."],
+  ["الزرافة طويلة الرقبة", "قصة عربية", "كيف صارت الزرافة بهذا الطول؟"],
+  ["الدب الكسول والنحلة", "قصة عربية", "درس ممتع عن العمل والمكافأة."],
+  ["السمكة الذهبية", "حكاية شعبية", "أمنيات سحرية في قاع البحر."],
+  ["النجمة التي سقطت", "قصة عربية", "طفل صغير يحاول إعادة النجمة إلى السماء."],
+  ["القمر النائم", "قصة عربية", "حكاية حالمة قبل النوم."],
+  ["الفراشة الملونة", "قصة عربية", "رحلة فراشة بين الأزهار."],
+  ["البلبل المغرد", "كامل كيلاني", "أحلى الأغاني من حديقة الأطفال."],
+  ["الذئب الطيب", "قصة عربية", "ليس كل الذئاب مخيفة!"],
+  ["الحصان الأبيض المجنح", "قصة عربية", "مغامرة في عالم الخيال."],
+  ["مدينة الحلوى", "قصة عربية", "مدينة عجيبة كلها سكر وشوكولاتة."],
+  ["جزيرة الكنز السحري", "قصة عربية", "مغامرة بحرية مليئة بالأسرار."],
+  ["الساحر الطيب وقبعته", "قصة عربية", "ساحر يصنع الفرح للأطفال."],
+  ["الأميرة والقطة السحرية", "قصة عربية", "صداقة بين أميرة وقطتها."],
+  ["الفارس الصغير", "قصة عربية", "طفل شجاع ينقذ قريته."],
+  ["شجرة التفاح الكريمة", "قصة مترجمة", "حكاية مؤثرة عن العطاء."],
+  ["الغيمة الصغيرة", "قصة عربية", "غيمة تتعلم كيف تمطر."],
+  ["النحلة الصغيرة زهرة", "قصة عربية", "رحلة نحلة بين الأزهار."],
+  ["الكتكوت الضائع", "قصة عربية", "كتكوت يبحث عن أمه."],
+  ["العنكبوت الحكيم", "قصة عربية", "درس عن الصبر والإتقان."],
+  ["البحار الصغير سندباد", "كامل كيلاني", "أول رحلة بحرية لسندباد الصغير."],
+  ["كنز الجد", "قصة عربية", "حكاية عن قيمة العائلة."],
+  ["الطفل والحلم", "قصة عربية", "أحلام جميلة تتحقق."],
+  ["مغامرات الأرنب القمري", "قصة عربية", "أرنب يسافر إلى القمر."],
+  ["العصفور والمصباح", "قصة عربية", "صداقة عجيبة في الليل."],
+  ["الحديقة السرية للأطفال", "قصة عربية", "اكتشاف عالم سحري خلف الجدار."],
+  ["السحابة الزرقاء", "قصة عربية", "سحابة تبحث عن لون جديد."],
+  ["القنفذ والوردة", "قصة عربية", "صداقة بين قنفذ ووردة جميلة."],
+  ["الفأر الذكي والجبن", "حكاية شعبية", "حيلة ذكية لإنقاذ الأصدقاء."],
+  ["نسر الجبل الذهبي", "قصة عربية", "رحلة نسر شجاع فوق الجبال."],
+];
+
+const arabicKidsIllustratedSeeds: Seed[] = arabicKidsIllustratedTitles.map(([title, author, description], i) => ({
+  title,
+  author,
+  category: "children" as const,
+  language: "ar" as const,
+  description,
+  pageProfile: "short" as const,
+  cover: kidsIllustrations[i % kidsIllustrations.length],
+  illustration: kidsIllustrations[i % kidsIllustrations.length],
+}));
+
+allSeeds.push(...arabicKidsIllustratedSeeds);
+
 export const books: Book[] = allSeeds.map((seed, index) => ({
   id: String(index + 1),
   title: seed.title,
   author: seed.author,
   category: seed.category,
   language: seed.language,
-  cover: coverFor(seed.category),
+  cover: seed.cover ?? coverFor(seed.category),
   description: seed.description,
   pages: [],
   pageCount: pageCountForSeed(seed),
   duration: seed.duration,
   rating: seed.rating ?? stableRating(seed.title),
+  illustration: seed.illustration,
 }));
 
 const fullBookCache = new Map<string, Book>();
