@@ -29,6 +29,7 @@ export interface Book {
   pageCount: number;
   duration?: string;
   rating: number;
+  illustration?: string;
 }
 
 interface Seed {
@@ -40,6 +41,8 @@ interface Seed {
   duration?: string;
   rating?: number;
   pageProfile?: PageProfile;
+  cover?: string;
+  illustration?: string;
 }
 
 export const categories: { id: Category; label: string; labelEn: string; color: string; icon: string }[] = [
