@@ -64,11 +64,13 @@ export const BookReader = ({
   isRTL,
   bookId,
   language,
+  illustration,
 }: {
   pages: string[];
   isRTL: boolean;
   bookId?: string;
   language?: string;
+  illustration?: string;
 }) => {
   const isMobile = useIsMobile();
   const containerRef = useRef<HTMLDivElement>(null);
@@ -225,6 +227,14 @@ export const BookReader = ({
           FONT_CLASS[fontSize],
         )}
       >
+        {illustration && text && (
+          <img
+            src={illustration}
+            alt=""
+            loading="lazy"
+            className="mx-auto mb-4 w-full max-w-md aspect-[4/3] object-cover rounded-lg shadow-soft border border-border/30"
+          />
+        )}
         {text}
       </div>
       <div className={cn("absolute bottom-2 left-0 right-0 text-center text-[10px] sm:text-xs opacity-60", themeDef.fg)}>

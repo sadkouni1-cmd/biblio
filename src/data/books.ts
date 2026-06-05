@@ -4,8 +4,16 @@ import childrenCover from "@/assets/cover-children.jpg";
 import stories from "@/assets/cover-stories.jpg";
 import audio from "@/assets/cover-audio.jpg";
 import novel from "@/assets/cover-novel.jpg";
+import kidsFox from "@/assets/kids-fox.jpg";
+import kidsCarpet from "@/assets/kids-carpet.jpg";
+import kidsRabbit from "@/assets/kids-rabbit.jpg";
+import kidsLantern from "@/assets/kids-lantern.jpg";
+import kidsSea from "@/assets/kids-sea.jpg";
+import kidsAnimals from "@/assets/kids-animals.jpg";
 
-export type Category = "religious" | "philosophy" | "children" | "stories" | "novels" | "selfdev" | "trending" | "science" | "truestory";
+export const kidsIllustrations = [kidsFox, kidsCarpet, kidsRabbit, kidsLantern, kidsSea, kidsAnimals];
+
+export type Category = "religious" | "philosophy" | "children" | "stories" | "novels" | "selfdev" | "trending" | "science" | "truestory" | "history";
 export type Lang = "ar" | "fr" | "en" | "es";
 type PageProfile = "short" | "medium" | "long" | "epic";
 
@@ -21,6 +29,7 @@ export interface Book {
   pageCount: number;
   duration?: string;
   rating: number;
+  illustration?: string;
 }
 
 interface Seed {
@@ -32,6 +41,8 @@ interface Seed {
   duration?: string;
   rating?: number;
   pageProfile?: PageProfile;
+  cover?: string;
+  illustration?: string;
 }
 
 export const categories: { id: Category; label: string; labelEn: string; color: string; icon: string }[] = [
@@ -44,6 +55,7 @@ export const categories: { id: Category; label: string; labelEn: string; color: 
   { id: "stories", label: "قصص قصيرة", labelEn: "Short Stories", color: "hsl(var(--cat-stories))", icon: "📖" },
   { id: "novels", label: "روايات", labelEn: "Novels", color: "hsl(var(--cat-novel))", icon: "🌅" },
   { id: "truestory", label: "قصص حقيقية", labelEn: "True Stories", color: "hsl(var(--cat-stories))", icon: "📜" },
+  { id: "history", label: "تاريخ", labelEn: "History", color: "hsl(var(--cat-philosophy))", icon: "🏺" },
 ];
 
 export const languages: { id: Lang; label: string; flag: string }[] = [
@@ -64,6 +76,7 @@ const coverFor = (cat: Category) => {
     case "trending": return novel;
     case "science": return philosophy;
     case "truestory": return stories;
+    case "history": return philosophy;
   }
 };
 
@@ -84,6 +97,7 @@ const defaultProfileByCategory: Record<Category, PageProfile> = {
   trending: "long",
   science: "long",
   truestory: "long",
+  history: "epic",
 };
 
 const arabicCategoryLabel: Record<Category, string> = {
@@ -96,6 +110,7 @@ const arabicCategoryLabel: Record<Category, string> = {
   trending: "الكتب الأكثر رواجًا",
   science: "الصحة والعلوم",
   truestory: "القصص الحقيقية والسير",
+  history: "الكتب التاريخية",
 };
 
 const englishCategoryLabel: Record<Category, string> = {
@@ -108,6 +123,7 @@ const englishCategoryLabel: Record<Category, string> = {
   trending: "trending books",
   science: "health & science",
   truestory: "true stories & memoirs",
+  history: "history",
 };
 
 const frenchCategoryLabel: Record<Category, string> = {
@@ -120,6 +136,7 @@ const frenchCategoryLabel: Record<Category, string> = {
   trending: "les livres tendance",
   science: "la santé et la science",
   truestory: "les histoires vraies et mémoires",
+  history: "l'histoire",
 };
 
 const spanishCategoryLabel: Record<Category, string> = {
@@ -132,6 +149,7 @@ const spanishCategoryLabel: Record<Category, string> = {
   trending: "los libros tendencia",
   science: "la salud y la ciencia",
   truestory: "las historias reales y memorias",
+  history: "la historia",
 };
 
 const arParagraphs = [
@@ -2601,6 +2619,60 @@ const massExpansionSeeds: Seed[] = [
   { title: "Le Petit Prince", author: "Antoine de Saint-Exupéry", category: "children", language: "fr", description: "Le conte philosophique le plus lu au monde.", pageProfile: "short" },
   { title: "El Principito", author: "Antoine de Saint-Exupéry", category: "children", language: "es", description: "Un cuento universal.", pageProfile: "short" },
 
+  // ===== قصص الأطفال بالعربية =====
+  { title: "السندباد البحري", author: "كامل كيلاني", category: "children", language: "ar", description: "مغامرات السندباد في البحار السبعة.", pageProfile: "short" },
+  { title: "علي بابا والأربعون حرامي", author: "كامل كيلاني", category: "children", language: "ar", description: "حكاية الكنز المخبأ والكلمة السحرية.", pageProfile: "short" },
+  { title: "الأميرة والوحش", author: "كامل كيلاني", category: "children", language: "ar", description: "قصة الجمال الذي يهزم القبح.", pageProfile: "short" },
+  { title: "الشاطر حسن", author: "كامل كيلاني", category: "children", language: "ar", description: "حكاية شعبية عربية محبوبة.", pageProfile: "short" },
+  { title: "جحا والحمار", author: "كامل كيلاني", category: "children", language: "ar", description: "نوادر جحا الطريفة للصغار.", pageProfile: "short" },
+  { title: "نوادر جحا للأطفال", author: "كامل كيلاني", category: "children", language: "ar", description: "مجموعة من أمتع نوادر جحا.", pageProfile: "short" },
+  { title: "الأرنب الذكي", author: "كامل كيلاني", category: "children", language: "ar", description: "حكاية عن الذكاء والحيلة.", pageProfile: "short" },
+  { title: "الديك الفصيح", author: "كامل كيلاني", category: "children", language: "ar", description: "قصة طريفة عن الديك المغرور.", pageProfile: "short" },
+  { title: "حمار الحكيم", author: "كامل كيلاني", category: "children", language: "ar", description: "قصص الحيوان للأطفال.", pageProfile: "short" },
+  { title: "الفيل الأبيض", author: "كامل كيلاني", category: "children", language: "ar", description: "حكاية من حكايات الهند.", pageProfile: "short" },
+  { title: "النمر الطائر", author: "كامل كيلاني", category: "children", language: "ar", description: "حكاية مغامرة وخيال.", pageProfile: "short" },
+  { title: "حكايات من ألف ليلة وليلة للأطفال", author: "كامل كيلاني", category: "children", language: "ar", description: "أجمل ليالي شهرزاد للصغار.", pageProfile: "medium" },
+  { title: "ليلى والذئب", author: "حكاية شعبية", category: "children", language: "ar", description: "ليلى الحمراء وحكاية الغابة.", pageProfile: "short" },
+  { title: "الأمير السعيد", author: "أوسكار وايلد (مترجم)", category: "children", language: "ar", description: "قصة عن الكرم والمحبة.", pageProfile: "short" },
+  { title: "العندليب والوردة", author: "أوسكار وايلد (مترجم)", category: "children", language: "ar", description: "حكاية شاعرية عن التضحية.", pageProfile: "short" },
+  { title: "الجميلة النائمة", author: "حكاية مترجمة", category: "children", language: "ar", description: "حكاية الأميرة والمغزل السحري.", pageProfile: "short" },
+  { title: "سندريلا", author: "حكاية مترجمة", category: "children", language: "ar", description: "الفردة الزجاجية وحلم الأميرة.", pageProfile: "short" },
+  { title: "بياض الثلج والأقزام السبعة", author: "الأخوان جريم (مترجم)", category: "children", language: "ar", description: "قصة الأميرة والمرآة السحرية.", pageProfile: "short" },
+  { title: "الحسناء والوحش", author: "حكاية مترجمة", category: "children", language: "ar", description: "حكاية الحب الذي يكسر اللعنة.", pageProfile: "short" },
+  { title: "هانسل وجريتل", author: "الأخوان جريم (مترجم)", category: "children", language: "ar", description: "أخوان شجاعان في بيت الحلوى.", pageProfile: "short" },
+  { title: "ذات الرداء الأحمر", author: "الأخوان جريم (مترجم)", category: "children", language: "ar", description: "قصة الفتاة والذئب الماكر.", pageProfile: "short" },
+  { title: "الخنازير الثلاثة الصغار", author: "حكاية مترجمة", category: "children", language: "ar", description: "ثلاثة إخوة وذئب جائع.", pageProfile: "short" },
+  { title: "بينوكيو", author: "كارلو كولودي (مترجم)", category: "children", language: "ar", description: "الدمية الخشبية التي حلمت أن تصير طفلاً.", pageProfile: "medium" },
+  { title: "بيتر بان", author: "ج. م. باري (مترجم)", category: "children", language: "ar", description: "الطفل الذي رفض أن يكبر.", pageProfile: "medium" },
+  { title: "موجلي فتى الأدغال", author: "روديارد كيبلينج (مترجم)", category: "children", language: "ar", description: "كتاب الأدغال للأطفال.", pageProfile: "medium" },
+  { title: "هايدي فتاة الجبل", author: "يوهانا شبيري (مترجم)", category: "children", language: "ar", description: "قصة الفتاة بين جبال الألب.", pageProfile: "medium" },
+  { title: "الحديقة السرية", author: "فرانسيس برنيت (مترجم)", category: "children", language: "ar", description: "حديقة تشفي القلوب.", pageProfile: "medium" },
+  { title: "ساحر أوز العجيب", author: "فرانك بوم (مترجم)", category: "children", language: "ar", description: "دوروثي على طريق القرميد الأصفر.", pageProfile: "medium" },
+  { title: "البطة القبيحة", author: "هانس كريستيان أندرسن (مترجم)", category: "children", language: "ar", description: "حكاية البطة التي صارت بجعة.", pageProfile: "short" },
+  { title: "حورية البحر الصغيرة", author: "هانس كريستيان أندرسن (مترجم)", category: "children", language: "ar", description: "قصة الأميرة في أعماق البحار.", pageProfile: "short" },
+  { title: "ثياب الإمبراطور الجديدة", author: "هانس كريستيان أندرسن (مترجم)", category: "children", language: "ar", description: "حكاية ساخرة عن الغرور.", pageProfile: "short" },
+  { title: "بائعة الكبريت", author: "هانس كريستيان أندرسن (مترجم)", category: "children", language: "ar", description: "قصة مؤثرة في ليلة رأس السنة.", pageProfile: "short" },
+  { title: "جزيرة الكنز للأطفال", author: "روبرت ستيفنسون (مترجم)", category: "children", language: "ar", description: "مغامرة القراصنة والكنز المدفون.", pageProfile: "medium" },
+  { title: "روبنسون كروزو للأطفال", author: "دانيال ديفو (مترجم)", category: "children", language: "ar", description: "قصة الناجي على الجزيرة المهجورة.", pageProfile: "medium" },
+  { title: "رحلات جلفر للأطفال", author: "جوناثان سويفت (مترجم)", category: "children", language: "ar", description: "مغامرات في بلاد العمالقة والأقزام.", pageProfile: "medium" },
+  { title: "كليلة ودمنة للأطفال", author: "ابن المقفع", category: "children", language: "ar", description: "حكايات الحيوان وحِكمها.", pageProfile: "medium" },
+  { title: "حكايات لقمان الحكيم", author: "تراث عربي", category: "children", language: "ar", description: "أمثال وحِكَم على لسان الحيوان.", pageProfile: "short" },
+  { title: "الذئب والجداء السبعة", author: "حكاية شعبية", category: "children", language: "ar", description: "حكاية شهيرة للصغار.", pageProfile: "short" },
+  { title: "الأسد والفأر", author: "خرافات إيسوب", category: "children", language: "ar", description: "حكاية عن الجميل لا يضيع.", pageProfile: "short" },
+  { title: "السلحفاة والأرنب", author: "خرافات إيسوب", category: "children", language: "ar", description: "الصبر مفتاح الفوز.", pageProfile: "short" },
+  { title: "الراعي الكاذب", author: "خرافات إيسوب", category: "children", language: "ar", description: "قصة عن خطر الكذب.", pageProfile: "short" },
+  { title: "النملة والصرصور", author: "خرافات إيسوب", category: "children", language: "ar", description: "حكاية عن العمل والاستعداد.", pageProfile: "short" },
+  { title: "العصافير الثلاثة", author: "حكاية شعبية", category: "children", language: "ar", description: "ثلاثة إخوة وبيوت من قش وخشب وحجر.", pageProfile: "short" },
+  { title: "حكايات قبل النوم", author: "مجموعة مؤلفين", category: "children", language: "ar", description: "حكايات قصيرة قبل النوم.", pageProfile: "short" },
+  { title: "أحلى الحكايات للأطفال", author: "مجموعة مؤلفين", category: "children", language: "ar", description: "باقة قصص للصغار.", pageProfile: "short" },
+  { title: "قصص الأنبياء للأطفال", author: "أحمد بهجت", category: "children", language: "ar", description: "قصص الأنبياء بأسلوب يناسب الصغار.", pageProfile: "medium" },
+  { title: "حكايات جدي", author: "يعقوب الشاروني", category: "children", language: "ar", description: "حكايات شعبية وجدانية.", pageProfile: "short" },
+  { title: "العصفور الأخضر", author: "يعقوب الشاروني", category: "children", language: "ar", description: "حكاية مصرية للأطفال.", pageProfile: "short" },
+  { title: "الفأر الذكي", author: "يعقوب الشاروني", category: "children", language: "ar", description: "حكاية عن الذكاء والشجاعة.", pageProfile: "short" },
+  { title: "مغامرات سعيد ونجوى", author: "يعقوب الشاروني", category: "children", language: "ar", description: "مغامرات أخوين فضوليين.", pageProfile: "short" },
+  { title: "الشجرة الكريمة", author: "شيل سيلفرستاين (مترجم)", category: "children", language: "ar", description: "حكاية عن العطاء بلا حدود.", pageProfile: "short" },
+  { title: "نملة وفيل", author: "حكاية شعبية", category: "children", language: "ar", description: "صداقة عجيبة بين كائنين مختلفين.", pageProfile: "short" },
+
   // ===== Stories =====
   { title: "أرني الله", author: "توفيق الحكيم", category: "stories", language: "ar", description: "قصص قصيرة فلسفية.", pageProfile: "medium" },
   { title: "أهل الكهف", author: "توفيق الحكيم", category: "stories", language: "ar", description: "مسرحية قصصية شهيرة.", pageProfile: "medium" },
@@ -2656,18 +2728,271 @@ const massExpansionSeeds: Seed[] = [
 
 allSeeds.push(...massExpansionSeeds);
 
+const historySeeds: Seed[] = [
+  // Arabic
+  { title: "البداية والنهاية", author: "ابن كثير", category: "history", language: "ar", description: "موسوعة في التاريخ الإسلامي والعالمي.", pageProfile: "epic" },
+  { title: "تاريخ الطبري (تاريخ الرسل والملوك)", author: "محمد بن جرير الطبري", category: "history", language: "ar", description: "أحد أهم المراجع في التاريخ الإسلامي.", pageProfile: "epic" },
+  { title: "مقدمة ابن خلدون", author: "ابن خلدون", category: "history", language: "ar", description: "أساس علم الاجتماع وفلسفة التاريخ.", pageProfile: "epic" },
+  { title: "تاريخ ابن خلدون (العبر)", author: "ابن خلدون", category: "history", language: "ar", description: "ديوان المبتدأ والخبر في تاريخ العرب والعجم والبربر.", pageProfile: "epic" },
+  { title: "الكامل في التاريخ", author: "ابن الأثير", category: "history", language: "ar", description: "موسوعة تاريخية شاملة.", pageProfile: "epic" },
+  { title: "مروج الذهب ومعادن الجوهر", author: "المسعودي", category: "history", language: "ar", description: "تاريخ وأخبار الأمم.", pageProfile: "epic" },
+  { title: "فتوح البلدان", author: "البلاذري", category: "history", language: "ar", description: "تاريخ الفتوحات الإسلامية الكبرى.", pageProfile: "long" },
+  { title: "السيرة النبوية", author: "ابن هشام", category: "history", language: "ar", description: "أشهر كتب السيرة.", pageProfile: "epic" },
+  { title: "زاد المعاد في هدي خير العباد", author: "ابن قيم الجوزية", category: "history", language: "ar", description: "في هدي النبي ﷺ وسيرته.", pageProfile: "epic" },
+  { title: "الرحيق المختوم", author: "صفي الرحمن المباركفوري", category: "history", language: "ar", description: "السيرة النبوية الفائزة بالمسابقة العالمية.", pageProfile: "long" },
+  { title: "فجر الإسلام", author: "أحمد أمين", category: "history", language: "ar", description: "تاريخ الحياة العقلية في صدر الإسلام.", pageProfile: "long" },
+  { title: "ضحى الإسلام", author: "أحمد أمين", category: "history", language: "ar", description: "الحضارة الإسلامية في العصر العباسي.", pageProfile: "long" },
+  { title: "ظهر الإسلام", author: "أحمد أمين", category: "history", language: "ar", description: "تاريخ الفكر الإسلامي.", pageProfile: "long" },
+  { title: "عصر المرابطين والموحدين", author: "محمد عبد الله عنان", category: "history", language: "ar", description: "تاريخ المغرب والأندلس.", pageProfile: "long" },
+  { title: "دولة الإسلام في الأندلس", author: "محمد عبد الله عنان", category: "history", language: "ar", description: "موسوعة عن الأندلس.", pageProfile: "epic" },
+  { title: "تاريخ الأندلس", author: "حسين مؤنس", category: "history", language: "ar", description: "من الفتح حتى السقوط.", pageProfile: "long" },
+  { title: "نهاية الأندلس وتاريخ العرب المتنصرين", author: "محمد عبد الله عنان", category: "history", language: "ar", description: "سقوط غرناطة ومصير المسلمين.", pageProfile: "long" },
+  { title: "الحضارة العربية الإسلامية", author: "شوقي ضيف", category: "history", language: "ar", description: "ملامح الحضارة وإسهاماتها.", pageProfile: "long" },
+  { title: "تاريخ الدولة العثمانية", author: "محمد فريد بك المحامي", category: "history", language: "ar", description: "نشأة الدولة العثمانية وامتدادها.", pageProfile: "epic" },
+  { title: "الدولة العثمانية عوامل النهوض وأسباب السقوط", author: "علي محمد الصلابي", category: "history", language: "ar", description: "قراءة تحليلية في تاريخ الدولة العثمانية.", pageProfile: "epic" },
+  { title: "صلاح الدين الأيوبي", author: "علي محمد الصلابي", category: "history", language: "ar", description: "البطل الذي حرر القدس.", pageProfile: "long" },
+  { title: "عمر بن الخطاب: شخصيته وعصره", author: "علي محمد الصلابي", category: "history", language: "ar", description: "سيرة الفاروق وعصره.", pageProfile: "epic" },
+  { title: "أبو بكر الصديق", author: "علي محمد الصلابي", category: "history", language: "ar", description: "سيرة الصديق وخلافته.", pageProfile: "long" },
+  { title: "تاريخ مصر الحديث", author: "جرجي زيدان", category: "history", language: "ar", description: "من الفتح العثماني إلى القرن العشرين.", pageProfile: "long" },
+  { title: "تاريخ التمدن الإسلامي", author: "جرجي زيدان", category: "history", language: "ar", description: "موسوعة في الحضارة الإسلامية.", pageProfile: "epic" },
+  { title: "حاضر العالم الإسلامي", author: "شكيب أرسلان", category: "history", language: "ar", description: "أوضاع المسلمين في العالم الحديث.", pageProfile: "long" },
+  { title: "لماذا تأخر المسلمون ولماذا تقدم غيرهم", author: "شكيب أرسلان", category: "history", language: "ar", description: "تحليل أسباب تأخر الأمة.", pageProfile: "long" },
+  { title: "موسوعة سفير لتاريخ مصر", author: "حسين مؤنس", category: "history", language: "ar", description: "تاريخ مصر عبر العصور.", pageProfile: "epic" },
+  { title: "الحملة الفرنسية على مصر", author: "عبد الرحمن الجبرتي", category: "history", language: "ar", description: "شاهد عيان على غزو نابليون.", pageProfile: "long" },
+  { title: "عجائب الآثار في التراجم والأخبار", author: "عبد الرحمن الجبرتي", category: "history", language: "ar", description: "تاريخ مصر في القرنين 18 و19.", pageProfile: "epic" },
+  { title: "تاريخ الفلسفة العربية", author: "حنا الفاخوري وخليل الجر", category: "history", language: "ar", description: "تطور الفلسفة عند المسلمين.", pageProfile: "epic" },
+  { title: "العرب في التاريخ", author: "برنارد لويس", category: "history", language: "ar", description: "تاريخ العرب من الجاهلية إلى العصر الحديث.", pageProfile: "long" },
+  { title: "موسوعة تاريخ المغرب", author: "إبراهيم حركات", category: "history", language: "ar", description: "تاريخ المغرب الأقصى.", pageProfile: "epic" },
+  { title: "تاريخ شمال إفريقيا", author: "شارل أندريه جوليان", category: "history", language: "ar", description: "من الفتح الإسلامي إلى الاستعمار.", pageProfile: "epic" },
+
+  // English
+  { title: "Sapiens: A Brief History of Humankind", author: "Yuval Noah Harari", category: "history", language: "en", description: "From the Stone Age to the modern world.", pageProfile: "epic" },
+  { title: "Guns, Germs, and Steel", author: "Jared Diamond", category: "history", language: "en", description: "The fates of human societies.", pageProfile: "epic" },
+  { title: "A People's History of the United States", author: "Howard Zinn", category: "history", language: "en", description: "American history from the bottom up.", pageProfile: "epic" },
+  { title: "The Silk Roads: A New History of the World", author: "Peter Frankopan", category: "history", language: "en", description: "Reorienting world history through the East.", pageProfile: "epic" },
+  { title: "Postwar: A History of Europe Since 1945", author: "Tony Judt", category: "history", language: "en", description: "Europe after the Second World War.", pageProfile: "epic" },
+  { title: "The Rise and Fall of the Third Reich", author: "William L. Shirer", category: "history", language: "en", description: "A definitive history of Nazi Germany.", pageProfile: "epic" },
+  { title: "A History of the Arab Peoples", author: "Albert Hourani", category: "history", language: "en", description: "From the rise of Islam to the modern era.", pageProfile: "epic" },
+  { title: "Lost Islamic History", author: "Firas Alkhateeb", category: "history", language: "en", description: "Reclaiming Muslim civilisation from the past.", pageProfile: "long" },
+  { title: "Destiny Disrupted", author: "Tamim Ansary", category: "history", language: "en", description: "A history of the world through Islamic eyes.", pageProfile: "long" },
+  { title: "1491", author: "Charles C. Mann", category: "history", language: "en", description: "New revelations of the Americas before Columbus.", pageProfile: "long" },
+  { title: "1776", author: "David McCullough", category: "history", language: "en", description: "The pivotal year of the American Revolution.", pageProfile: "long" },
+  { title: "John Adams", author: "David McCullough", category: "history", language: "en", description: "Biography of a Founding Father.", pageProfile: "epic" },
+  { title: "Team of Rivals", author: "Doris Kearns Goodwin", category: "history", language: "en", description: "The political genius of Abraham Lincoln.", pageProfile: "epic" },
+  { title: "The Wright Brothers", author: "David McCullough", category: "history", language: "en", description: "How they invented flight.", pageProfile: "long" },
+  { title: "SPQR: A History of Ancient Rome", author: "Mary Beard", category: "history", language: "en", description: "A new look at Roman history.", pageProfile: "epic" },
+  { title: "The Histories", author: "Herodotus", category: "history", language: "en", description: "The first work of history in Western literature.", pageProfile: "epic" },
+  { title: "The History of the Peloponnesian War", author: "Thucydides", category: "history", language: "en", description: "The classic account of war between Athens and Sparta.", pageProfile: "epic" },
+  { title: "The Decline and Fall of the Roman Empire", author: "Edward Gibbon", category: "history", language: "en", description: "A monumental history of Rome.", pageProfile: "epic" },
+  { title: "A Short History of Nearly Everything", author: "Bill Bryson", category: "history", language: "en", description: "From the Big Bang to the rise of civilisation.", pageProfile: "epic" },
+  { title: "The Crusades Through Arab Eyes", author: "Amin Maalouf", category: "history", language: "en", description: "The Crusades from the Muslim perspective.", pageProfile: "long" },
+  { title: "Genghis Khan and the Making of the Modern World", author: "Jack Weatherford", category: "history", language: "en", description: "How the Mongols shaped our world.", pageProfile: "long" },
+  { title: "The Guns of August", author: "Barbara Tuchman", category: "history", language: "en", description: "The outbreak of World War I.", pageProfile: "epic" },
+  { title: "A Distant Mirror", author: "Barbara Tuchman", category: "history", language: "en", description: "The calamitous 14th century.", pageProfile: "epic" },
+  { title: "The Better Angels of Our Nature", author: "Steven Pinker", category: "history", language: "en", description: "Why violence has declined.", pageProfile: "epic" },
+  { title: "The Diary of a Young Girl", author: "Anne Frank", category: "history", language: "en", description: "A girl's life in hiding during WWII.", pageProfile: "long" },
+  { title: "Night", author: "Elie Wiesel", category: "history", language: "en", description: "A Holocaust memoir.", pageProfile: "medium" },
+  { title: "The Splendid and the Vile", author: "Erik Larson", category: "history", language: "en", description: "Churchill, family and defiance during the Blitz.", pageProfile: "long" },
+  { title: "Alexander Hamilton", author: "Ron Chernow", category: "history", language: "en", description: "The biography that inspired the musical.", pageProfile: "epic" },
+  { title: "The Warmth of Other Suns", author: "Isabel Wilkerson", category: "history", language: "en", description: "The epic story of America's Great Migration.", pageProfile: "epic" },
+  { title: "Empire of the Summer Moon", author: "S. C. Gwynne", category: "history", language: "en", description: "Quanah Parker and the rise and fall of the Comanches.", pageProfile: "long" },
+
+  // French
+  { title: "Histoire de France", author: "Jules Michelet", category: "history", language: "fr", description: "Une fresque monumentale de l'histoire française.", pageProfile: "epic" },
+  { title: "La Méditerranée et le monde méditerranéen à l'époque de Philippe II", author: "Fernand Braudel", category: "history", language: "fr", description: "Chef-d'œuvre de l'École des Annales.", pageProfile: "epic" },
+  { title: "Civilisation matérielle, économie et capitalisme", author: "Fernand Braudel", category: "history", language: "fr", description: "Une histoire mondiale de l'économie.", pageProfile: "epic" },
+  { title: "Histoire des Croisades", author: "René Grousset", category: "history", language: "fr", description: "La référence sur les Croisades.", pageProfile: "epic" },
+  { title: "L'Empire des steppes", author: "René Grousset", category: "history", language: "fr", description: "Attila, Gengis Khan, Tamerlan.", pageProfile: "epic" },
+  { title: "Sapiens : Une brève histoire de l'humanité", author: "Yuval Noah Harari", category: "history", language: "fr", description: "De la préhistoire à nos jours.", pageProfile: "epic" },
+  { title: "Les Croisades vues par les Arabes", author: "Amin Maalouf", category: "history", language: "fr", description: "Les Croisades du point de vue arabe.", pageProfile: "long" },
+  { title: "Léon l'Africain", author: "Amin Maalouf", category: "history", language: "fr", description: "Roman historique méditerranéen.", pageProfile: "long" },
+  { title: "Samarcande", author: "Amin Maalouf", category: "history", language: "fr", description: "Sur les traces d'Omar Khayyam.", pageProfile: "long" },
+  { title: "Histoire de la Révolution française", author: "Jules Michelet", category: "history", language: "fr", description: "L'épopée révolutionnaire.", pageProfile: "epic" },
+  { title: "L'Ancien Régime et la Révolution", author: "Alexis de Tocqueville", category: "history", language: "fr", description: "Analyse classique de la France révolutionnaire.", pageProfile: "long" },
+  { title: "De la démocratie en Amérique", author: "Alexis de Tocqueville", category: "history", language: "fr", description: "Étude fondatrice de la démocratie moderne.", pageProfile: "epic" },
+  { title: "Histoire de la Seconde Guerre mondiale", author: "Winston Churchill", category: "history", language: "fr", description: "Mémoires et histoire mêlées.", pageProfile: "epic" },
+  { title: "Le Monde d'hier", author: "Stefan Zweig", category: "history", language: "fr", description: "Souvenirs d'un Européen.", pageProfile: "long" },
+  { title: "Apocalypse : la 2e guerre mondiale", author: "Daniel Costelle & Isabelle Clarke", category: "history", language: "fr", description: "Récit illustré de la guerre.", pageProfile: "long" },
+  { title: "Les Rois maudits", author: "Maurice Druon", category: "history", language: "fr", description: "Saga historique sur les derniers Capétiens.", pageProfile: "epic" },
+  { title: "Saint Louis", author: "Jacques Le Goff", category: "history", language: "fr", description: "Biographie magistrale du roi de France.", pageProfile: "epic" },
+  { title: "L'Histoire commence à Sumer", author: "Samuel Noah Kramer", category: "history", language: "fr", description: "Aux origines de la civilisation.", pageProfile: "long" },
+  { title: "Histoire de l'Algérie coloniale", author: "Charles-Robert Ageron", category: "history", language: "fr", description: "L'Algérie sous la France.", pageProfile: "long" },
+  { title: "Le Maroc et l'Europe", author: "Daniel Rivet", category: "history", language: "fr", description: "Quatre siècles d'histoire commune.", pageProfile: "long" },
+
+  // Spanish
+  { title: "Sapiens: De animales a dioses", author: "Yuval Noah Harari", category: "history", language: "es", description: "Breve historia de la humanidad.", pageProfile: "epic" },
+  { title: "Las venas abiertas de América Latina", author: "Eduardo Galeano", category: "history", language: "es", description: "Historia del saqueo del continente.", pageProfile: "long" },
+  { title: "Memoria del fuego", author: "Eduardo Galeano", category: "history", language: "es", description: "Trilogía sobre la historia de América.", pageProfile: "epic" },
+  { title: "Breve historia de España", author: "Fernando García de Cortázar", category: "history", language: "es", description: "Una visión panorámica.", pageProfile: "long" },
+  { title: "Imperiofobia y leyenda negra", author: "María Elvira Roca Barea", category: "history", language: "es", description: "Roma, Rusia, Estados Unidos y el Imperio español.", pageProfile: "long" },
+  { title: "La conquista de América", author: "Tzvetan Todorov", category: "history", language: "es", description: "El problema del otro.", pageProfile: "long" },
+  { title: "Historia general de las cosas de Nueva España", author: "Bernardino de Sahagún", category: "history", language: "es", description: "Crónica fundacional del mundo azteca.", pageProfile: "epic" },
+  { title: "Historia verdadera de la conquista de la Nueva España", author: "Bernal Díaz del Castillo", category: "history", language: "es", description: "Crónica de un soldado de Cortés.", pageProfile: "epic" },
+  { title: "Comentarios reales de los Incas", author: "Inca Garcilaso de la Vega", category: "history", language: "es", description: "Historia del Tahuantinsuyo.", pageProfile: "epic" },
+  { title: "Al-Ándalus contra España", author: "Serafín Fanjul", category: "history", language: "es", description: "Forja del mito andalusí.", pageProfile: "long" },
+  { title: "La España vacía", author: "Sergio del Molino", category: "history", language: "es", description: "Viaje por un país que nunca fue.", pageProfile: "long" },
+  { title: "Anatomía de un instante", author: "Javier Cercas", category: "history", language: "es", description: "El golpe del 23-F.", pageProfile: "long" },
+  { title: "Patria o muerte", author: "Loret de Mola", category: "history", language: "es", description: "La Cuba contemporánea.", pageProfile: "long" },
+  { title: "Bolívar", author: "Marie Arana", category: "history", language: "es", description: "El libertador americano.", pageProfile: "epic" },
+  { title: "1492: El nacimiento de la modernidad", author: "Felipe Fernández-Armesto", category: "history", language: "es", description: "El año que cambió el mundo.", pageProfile: "long" },
+];
+
+allSeeds.push(...historySeeds);
+
+// Mass library of illustrated Arabic children's stories — each gets a colorful illustration
+const arabicKidsIllustratedTitles: Array<[string, string, string]> = [
+  ["الثعلب الذكي والعنب", "حكاية شعبية", "حكاية كلاسيكية عن الذكاء والصبر."],
+  ["الأسد والفأر", "إيسوب (مترجم)", "صداقة جميلة بين الكبير والصغير."],
+  ["الأرنب والسلحفاة", "إيسوب (مترجم)", "البطء والثبات يفوزان في النهاية."],
+  ["الراعي الكذاب", "إيسوب (مترجم)", "درس مهم عن الصدق والأمانة."],
+  ["النملة والصرصور", "إيسوب (مترجم)", "قيمة العمل والاستعداد للمستقبل."],
+  ["الغراب العطشان", "إيسوب (مترجم)", "الذكاء يحل أصعب المشاكل."],
+  ["الديك الذهبي", "حكاية شعبية", "حكاية مليئة بالألوان والمغامرة."],
+  ["العصفور الصغير والشجرة", "كامل كيلاني", "قصة جميلة عن الصداقة والطبيعة."],
+  ["الفيل الصغير لولو", "قصة عربية", "مغامرات فيل لطيف يتعلم كل يوم."],
+  ["القط المشاغب مشمش", "قصة عربية", "حكايات طريفة لقط فضولي."],
+  ["البطة الصغيرة الشجاعة", "قصة عربية", "بطة تتعلم العوم لأول مرة."],
+  ["الزرافة طويلة الرقبة", "قصة عربية", "كيف صارت الزرافة بهذا الطول؟"],
+  ["الدب الكسول والنحلة", "قصة عربية", "درس ممتع عن العمل والمكافأة."],
+  ["السمكة الذهبية", "حكاية شعبية", "أمنيات سحرية في قاع البحر."],
+  ["النجمة التي سقطت", "قصة عربية", "طفل صغير يحاول إعادة النجمة إلى السماء."],
+  ["القمر النائم", "قصة عربية", "حكاية حالمة قبل النوم."],
+  ["الفراشة الملونة", "قصة عربية", "رحلة فراشة بين الأزهار."],
+  ["البلبل المغرد", "كامل كيلاني", "أحلى الأغاني من حديقة الأطفال."],
+  ["الذئب الطيب", "قصة عربية", "ليس كل الذئاب مخيفة!"],
+  ["الحصان الأبيض المجنح", "قصة عربية", "مغامرة في عالم الخيال."],
+  ["مدينة الحلوى", "قصة عربية", "مدينة عجيبة كلها سكر وشوكولاتة."],
+  ["جزيرة الكنز السحري", "قصة عربية", "مغامرة بحرية مليئة بالأسرار."],
+  ["الساحر الطيب وقبعته", "قصة عربية", "ساحر يصنع الفرح للأطفال."],
+  ["الأميرة والقطة السحرية", "قصة عربية", "صداقة بين أميرة وقطتها."],
+  ["الفارس الصغير", "قصة عربية", "طفل شجاع ينقذ قريته."],
+  ["شجرة التفاح الكريمة", "قصة مترجمة", "حكاية مؤثرة عن العطاء."],
+  ["الغيمة الصغيرة", "قصة عربية", "غيمة تتعلم كيف تمطر."],
+  ["النحلة الصغيرة زهرة", "قصة عربية", "رحلة نحلة بين الأزهار."],
+  ["الكتكوت الضائع", "قصة عربية", "كتكوت يبحث عن أمه."],
+  ["العنكبوت الحكيم", "قصة عربية", "درس عن الصبر والإتقان."],
+  ["البحار الصغير سندباد", "كامل كيلاني", "أول رحلة بحرية لسندباد الصغير."],
+  ["كنز الجد", "قصة عربية", "حكاية عن قيمة العائلة."],
+  ["الطفل والحلم", "قصة عربية", "أحلام جميلة تتحقق."],
+  ["مغامرات الأرنب القمري", "قصة عربية", "أرنب يسافر إلى القمر."],
+  ["العصفور والمصباح", "قصة عربية", "صداقة عجيبة في الليل."],
+  ["الحديقة السرية للأطفال", "قصة عربية", "اكتشاف عالم سحري خلف الجدار."],
+  ["السحابة الزرقاء", "قصة عربية", "سحابة تبحث عن لون جديد."],
+  ["القنفذ والوردة", "قصة عربية", "صداقة بين قنفذ ووردة جميلة."],
+  ["الفأر الذكي والجبن", "حكاية شعبية", "حيلة ذكية لإنقاذ الأصدقاء."],
+  ["نسر الجبل الذهبي", "قصة عربية", "رحلة نسر شجاع فوق الجبال."],
+];
+
+const arabicKidsIllustratedSeeds: Seed[] = arabicKidsIllustratedTitles.map(([title, author, description], i) => ({
+  title,
+  author,
+  category: "children" as const,
+  language: "ar" as const,
+  description,
+  pageProfile: "short" as const,
+  cover: kidsIllustrations[i % kidsIllustrations.length],
+  illustration: kidsIllustrations[i % kidsIllustrations.length],
+}));
+
+allSeeds.push(...arabicKidsIllustratedSeeds);
+
+// ===== Mega expansion across all categories (user request) =====
+const megaExpansionSeeds: Seed[] = [
+  // --- User explicitly requested ---
+  { title: "الأندلسي الأخير", author: "علي المقري", category: "novels", language: "ar", description: "رواية تستعيد ذاكرة الأندلس وسقوطها من منظور شخصية مأزومة بين هويتين.", pageProfile: "epic" },
+  { title: "جمر", author: "سحر خليفة", category: "novels", language: "ar", description: "رواية تشتعل بالعواطف والصراعات الإنسانية في زمن متقلّب.", pageProfile: "epic" },
+  { title: "The Man Who Could Have Been a Book", author: "Modern Author", category: "novels", language: "en", description: "A poetic novel about a man whose life unfolds like the pages of an unfinished book.", pageProfile: "long" },
+
+  // --- Novels (Arabic & translated) ---
+  { title: "ساعي بريد نيرودا", author: "أنطونيو سكارميتا (مترجم)", category: "novels", language: "ar", description: "حكاية شاعرية عن الصداقة والكلمات والشعر.", pageProfile: "long" },
+  { title: "البحث عن وليد مسعود", author: "جبرا إبراهيم جبرا", category: "novels", language: "ar", description: "رواية فلسطينية حول الهوية والشتات.", pageProfile: "epic" },
+  { title: "الطنطورية", author: "رضوى عاشور", category: "novels", language: "ar", description: "ملحمة عن النكبة الفلسطينية بصوت امرأة.", pageProfile: "epic" },
+  { title: "نجمة أغسطس", author: "صنع الله إبراهيم", category: "novels", language: "ar", description: "رواية وثائقية عن السد العالي والإنسان المصري.", pageProfile: "long" },
+  { title: "اللجنة", author: "صنع الله إبراهيم", category: "novels", language: "ar", description: "تجربة سردية عبثية عن السلطة.", pageProfile: "medium" },
+  { title: "تغريبة بني هلال", author: "تراث شعبي", category: "novels", language: "ar", description: "ملحمة شعبية عربية خالدة.", pageProfile: "epic" },
+  { title: "موت صغير", author: "محمد حسن علوان", category: "novels", language: "ar", description: "سيرة روائية لابن عربي.", pageProfile: "epic" },
+  { title: "طوق الياسمين", author: "واسيني الأعرج", category: "novels", language: "ar", description: "رواية الحب والذاكرة بين دمشق وقرطبة.", pageProfile: "long" },
+  { title: "كتاب الأمير", author: "واسيني الأعرج", category: "novels", language: "ar", description: "سيرة الأمير عبد القادر الجزائري روائيًا.", pageProfile: "epic" },
+  { title: "فرانكشتاين في بغداد", author: "أحمد سعداوي", category: "novels", language: "ar", description: "رواية عن العنف والحرب في بغداد.", pageProfile: "long" },
+  { title: "حدث أبو هريرة قال", author: "محمود المسعدي", category: "novels", language: "ar", description: "تأمل فلسفي روائي في الوجود.", pageProfile: "medium" },
+
+  // --- Religious ---
+  { title: "السيرة النبوية لابن هشام", author: "ابن هشام", category: "religious", language: "ar", description: "أحد أقدم وأشهر كتب السيرة النبوية.", pageProfile: "epic" },
+  { title: "فقه السنة", author: "السيد سابق", category: "religious", language: "ar", description: "موسوعة فقهية ميسرة.", pageProfile: "epic" },
+  { title: "صيد الخاطر", author: "ابن الجوزي", category: "religious", language: "ar", description: "خواطر روحية ووعظية.", pageProfile: "long" },
+  { title: "تلبيس إبليس", author: "ابن الجوزي", category: "religious", language: "ar", description: "كشف لأساليب الإغواء والوسواس.", pageProfile: "long" },
+  { title: "مدارج السالكين", author: "ابن قيم الجوزية", category: "religious", language: "ar", description: "في مقامات إياك نعبد وإياك نستعين.", pageProfile: "epic" },
+
+  // --- Philosophy ---
+  { title: "هكذا تكلم زرادشت", author: "فريدريك نيتشه (مترجم)", category: "philosophy", language: "ar", description: "تحفة نيتشه الفلسفية الشعرية.", pageProfile: "long" },
+  { title: "العالم بوصفه إرادة وتمثلًا", author: "آرتور شوبنهاور (مترجم)", category: "philosophy", language: "ar", description: "أحد أعظم كتب الفلسفة الحديثة.", pageProfile: "epic" },
+  { title: "نقد العقل الخالص", author: "إيمانويل كانط (مترجم)", category: "philosophy", language: "ar", description: "مرجع أساسي في الفلسفة الحديثة.", pageProfile: "epic" },
+  { title: "الوجود والعدم", author: "جان بول سارتر (مترجم)", category: "philosophy", language: "ar", description: "أساس الفلسفة الوجودية.", pageProfile: "epic" },
+  { title: "أسطورة سيزيف", author: "ألبير كامو (مترجم)", category: "philosophy", language: "ar", description: "محاولة في العبث والمعنى.", pageProfile: "long" },
+  { title: "Sapiens", author: "Yuval Noah Harari", category: "philosophy", language: "en", description: "A brief history of humankind.", pageProfile: "epic" },
+  { title: "Homo Deus", author: "Yuval Noah Harari", category: "philosophy", language: "en", description: "A brief history of tomorrow.", pageProfile: "long" },
+
+  // --- Self-development ---
+  { title: "العادات الذرية", author: "جيمس كلير (مترجم)", category: "selfdev", language: "ar", description: "بناء عادات صغيرة لنتائج مذهلة.", pageProfile: "long" },
+  { title: "قوة الآن", author: "إيكهارت تول (مترجم)", category: "selfdev", language: "ar", description: "دليل للحياة في اللحظة الحاضرة.", pageProfile: "long" },
+  { title: "فن اللامبالاة", author: "مارك مانسون (مترجم)", category: "selfdev", language: "ar", description: "نهج مختلف لحياة جيدة.", pageProfile: "medium" },
+  { title: "ابدأ بالسؤال لماذا", author: "سايمون سينك (مترجم)", category: "selfdev", language: "ar", description: "كيف يلهم القادة العظماء الآخرين.", pageProfile: "long" },
+  { title: "Deep Work", author: "Cal Newport", category: "selfdev", language: "en", description: "Rules for focused success in a distracted world.", pageProfile: "long" },
+  { title: "Mindset", author: "Carol Dweck", category: "selfdev", language: "en", description: "The new psychology of success.", pageProfile: "long" },
+
+  // --- Science ---
+  { title: "تاريخ موجز للزمن", author: "ستيفن هوكينغ (مترجم)", category: "science", language: "ar", description: "من الانفجار العظيم إلى الثقوب السوداء.", pageProfile: "long" },
+  { title: "الكون", author: "كارل ساغان (مترجم)", category: "science", language: "ar", description: "رحلة كونية مع كارل ساغان.", pageProfile: "long" },
+  { title: "الجين الأناني", author: "ريتشارد دوكينز (مترجم)", category: "science", language: "ar", description: "نظرة جديدة على التطور.", pageProfile: "long" },
+  { title: "Brief Answers to the Big Questions", author: "Stephen Hawking", category: "science", language: "en", description: "Hawking's final reflections on humanity's big questions.", pageProfile: "long" },
+  { title: "The Body", author: "Bill Bryson", category: "science", language: "en", description: "A guide for occupants.", pageProfile: "long" },
+
+  // --- History ---
+  { title: "تاريخ الأندلس", author: "محمد عبد الله عنان", category: "history", language: "ar", description: "موسوعة في تاريخ الأندلس من الفتح إلى السقوط.", pageProfile: "epic" },
+  { title: "نهاية الأندلس", author: "محمد عبد الله عنان", category: "history", language: "ar", description: "تأريخ سقوط غرناطة ومأساة الموريسكيين.", pageProfile: "long" },
+  { title: "الكامل في التاريخ", author: "ابن الأثير", category: "history", language: "ar", description: "موسوعة تاريخية كلاسيكية.", pageProfile: "epic" },
+  { title: "البداية والنهاية", author: "ابن كثير", category: "history", language: "ar", description: "أحد أهم كتب التاريخ الإسلامي.", pageProfile: "epic" },
+  { title: "تاريخ الطبري", author: "محمد بن جرير الطبري", category: "history", language: "ar", description: "تاريخ الرسل والملوك.", pageProfile: "epic" },
+  { title: "Guns, Germs, and Steel", author: "Jared Diamond", category: "history", language: "en", description: "The fates of human societies.", pageProfile: "epic" },
+
+  // --- True stories ---
+  { title: "أيام من حياتي", author: "زينب الغزالي", category: "truestory", language: "ar", description: "مذكرات صادمة من زمن المحنة.", pageProfile: "long" },
+  { title: "لأنك الله", author: "علي بن جابر الفيفي", category: "truestory", language: "ar", description: "تأملات إيمانية من تجربة حية.", pageProfile: "medium" },
+  { title: "Educated", author: "Tara Westover", category: "truestory", language: "en", description: "A memoir about education and freedom.", pageProfile: "long" },
+  { title: "When Breath Becomes Air", author: "Paul Kalanithi", category: "truestory", language: "en", description: "A neurosurgeon's reflections on life and death.", pageProfile: "long" },
+
+  // --- Stories ---
+  { title: "أرض البرتقال الحزين", author: "غسان كنفاني", category: "stories", language: "ar", description: "قصص قصيرة عن الغربة والوطن.", pageProfile: "medium" },
+  { title: "حكايات حارتنا", author: "نجيب محفوظ", category: "stories", language: "ar", description: "مشاهد إنسانية من الحارة المصرية.", pageProfile: "medium" },
+  { title: "قنديل أم هاشم", author: "يحيى حقي", category: "stories", language: "ar", description: "قصة شهيرة بين الإيمان والعلم.", pageProfile: "medium" },
+
+  // --- Trending ---
+  { title: "أرض زيكولا", author: "عمرو عبد الحميد", category: "trending", language: "ar", description: "رواية خيالية عربية رائجة.", pageProfile: "long" },
+  { title: "في قلبي أنثى عبرية", author: "خولة حمدي", category: "trending", language: "ar", description: "رواية رائجة عن الإيمان والهوية.", pageProfile: "long" },
+  { title: "Atomic Habits", author: "James Clear", category: "trending", language: "en", description: "Tiny changes, remarkable results.", pageProfile: "long" },
+  { title: "It Ends with Us", author: "Colleen Hoover", category: "trending", language: "en", description: "A bestselling emotional novel.", pageProfile: "long" },
+
+  // --- Children ---
+  { title: "الفيل الذي نسي لونه", author: "قصة عربية", category: "children", language: "ar", description: "فيل صغير يبحث عن لونه الحقيقي.", pageProfile: "short", cover: kidsAnimals, illustration: kidsAnimals },
+  { title: "البطة التي طارت عاليًا", author: "قصة عربية", category: "children", language: "ar", description: "بطة شجاعة تحقق حلمها بالطيران.", pageProfile: "short", cover: kidsSea, illustration: kidsSea },
+  { title: "ليلى والشجرة الذهبية", author: "حكاية شعبية", category: "children", language: "ar", description: "طفلة تكتشف سرّ شجرة قديمة.", pageProfile: "short", cover: kidsLantern, illustration: kidsLantern },
+];
+
+allSeeds.push(...megaExpansionSeeds);
+
 export const books: Book[] = allSeeds.map((seed, index) => ({
   id: String(index + 1),
   title: seed.title,
   author: seed.author,
   category: seed.category,
   language: seed.language,
-  cover: coverFor(seed.category),
+  cover: seed.cover ?? coverFor(seed.category),
   description: seed.description,
   pages: [],
   pageCount: pageCountForSeed(seed),
   duration: seed.duration,
   rating: seed.rating ?? stableRating(seed.title),
+  illustration: seed.illustration,
 }));
 
 const fullBookCache = new Map<string, Book>();

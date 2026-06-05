@@ -117,7 +117,7 @@ const BookDetail = () => {
                 إغلاق
               </Button>
             </div>
-            <BookReader pages={book.pages} isRTL={isRTL} bookId={book.id} language={book.language} />
+            <BookReader pages={book.pages} isRTL={isRTL} bookId={book.id} language={book.language} illustration={book.illustration} />
           </div>
         )}
       </div>
