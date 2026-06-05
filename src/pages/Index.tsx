@@ -68,7 +68,7 @@ const Index = () => {
 
   const hasSearch = search.trim().length > 0;
   const isUpdatingResults =
-    activeCat !== deferredActiveCat || activeLang !== deferredActiveLang || search !== deferredSearch;
+    activeCat !== deferredActiveCat || activeLang !== deferredActiveLang || debouncedSearch !== deferredSearch;
 
   // Group by author when the user is inside a specific section (or searching),
   // so that each author appears as a header with their books listed beneath.
