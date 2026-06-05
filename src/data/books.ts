@@ -2896,6 +2896,90 @@ const arabicKidsIllustratedSeeds: Seed[] = arabicKidsIllustratedTitles.map(([tit
 
 allSeeds.push(...arabicKidsIllustratedSeeds);
 
+// ===== Mega expansion across all categories (user request) =====
+const megaExpansionSeeds: Seed[] = [
+  // --- User explicitly requested ---
+  { title: "الأندلسي الأخير", author: "علي المقري", category: "novels", language: "ar", description: "رواية تستعيد ذاكرة الأندلس وسقوطها من منظور شخصية مأزومة بين هويتين.", pageProfile: "epic" },
+  { title: "جمر", author: "سحر خليفة", category: "novels", language: "ar", description: "رواية تشتعل بالعواطف والصراعات الإنسانية في زمن متقلّب.", pageProfile: "epic" },
+  { title: "The Man Who Could Have Been a Book", author: "Modern Author", category: "novels", language: "en", description: "A poetic novel about a man whose life unfolds like the pages of an unfinished book.", pageProfile: "long" },
+
+  // --- Novels (Arabic & translated) ---
+  { title: "ساعي بريد نيرودا", author: "أنطونيو سكارميتا (مترجم)", category: "novels", language: "ar", description: "حكاية شاعرية عن الصداقة والكلمات والشعر.", pageProfile: "long" },
+  { title: "البحث عن وليد مسعود", author: "جبرا إبراهيم جبرا", category: "novels", language: "ar", description: "رواية فلسطينية حول الهوية والشتات.", pageProfile: "epic" },
+  { title: "الطنطورية", author: "رضوى عاشور", category: "novels", language: "ar", description: "ملحمة عن النكبة الفلسطينية بصوت امرأة.", pageProfile: "epic" },
+  { title: "نجمة أغسطس", author: "صنع الله إبراهيم", category: "novels", language: "ar", description: "رواية وثائقية عن السد العالي والإنسان المصري.", pageProfile: "long" },
+  { title: "اللجنة", author: "صنع الله إبراهيم", category: "novels", language: "ar", description: "تجربة سردية عبثية عن السلطة.", pageProfile: "medium" },
+  { title: "تغريبة بني هلال", author: "تراث شعبي", category: "novels", language: "ar", description: "ملحمة شعبية عربية خالدة.", pageProfile: "epic" },
+  { title: "موت صغير", author: "محمد حسن علوان", category: "novels", language: "ar", description: "سيرة روائية لابن عربي.", pageProfile: "epic" },
+  { title: "طوق الياسمين", author: "واسيني الأعرج", category: "novels", language: "ar", description: "رواية الحب والذاكرة بين دمشق وقرطبة.", pageProfile: "long" },
+  { title: "كتاب الأمير", author: "واسيني الأعرج", category: "novels", language: "ar", description: "سيرة الأمير عبد القادر الجزائري روائيًا.", pageProfile: "epic" },
+  { title: "فرانكشتاين في بغداد", author: "أحمد سعداوي", category: "novels", language: "ar", description: "رواية عن العنف والحرب في بغداد.", pageProfile: "long" },
+  { title: "حدث أبو هريرة قال", author: "محمود المسعدي", category: "novels", language: "ar", description: "تأمل فلسفي روائي في الوجود.", pageProfile: "medium" },
+
+  // --- Religious ---
+  { title: "السيرة النبوية لابن هشام", author: "ابن هشام", category: "religious", language: "ar", description: "أحد أقدم وأشهر كتب السيرة النبوية.", pageProfile: "epic" },
+  { title: "فقه السنة", author: "السيد سابق", category: "religious", language: "ar", description: "موسوعة فقهية ميسرة.", pageProfile: "epic" },
+  { title: "صيد الخاطر", author: "ابن الجوزي", category: "religious", language: "ar", description: "خواطر روحية ووعظية.", pageProfile: "long" },
+  { title: "تلبيس إبليس", author: "ابن الجوزي", category: "religious", language: "ar", description: "كشف لأساليب الإغواء والوسواس.", pageProfile: "long" },
+  { title: "مدارج السالكين", author: "ابن قيم الجوزية", category: "religious", language: "ar", description: "في مقامات إياك نعبد وإياك نستعين.", pageProfile: "epic" },
+
+  // --- Philosophy ---
+  { title: "هكذا تكلم زرادشت", author: "فريدريك نيتشه (مترجم)", category: "philosophy", language: "ar", description: "تحفة نيتشه الفلسفية الشعرية.", pageProfile: "long" },
+  { title: "العالم بوصفه إرادة وتمثلًا", author: "آرتور شوبنهاور (مترجم)", category: "philosophy", language: "ar", description: "أحد أعظم كتب الفلسفة الحديثة.", pageProfile: "epic" },
+  { title: "نقد العقل الخالص", author: "إيمانويل كانط (مترجم)", category: "philosophy", language: "ar", description: "مرجع أساسي في الفلسفة الحديثة.", pageProfile: "epic" },
+  { title: "الوجود والعدم", author: "جان بول سارتر (مترجم)", category: "philosophy", language: "ar", description: "أساس الفلسفة الوجودية.", pageProfile: "epic" },
+  { title: "أسطورة سيزيف", author: "ألبير كامو (مترجم)", category: "philosophy", language: "ar", description: "محاولة في العبث والمعنى.", pageProfile: "long" },
+  { title: "Sapiens", author: "Yuval Noah Harari", category: "philosophy", language: "en", description: "A brief history of humankind.", pageProfile: "epic" },
+  { title: "Homo Deus", author: "Yuval Noah Harari", category: "philosophy", language: "en", description: "A brief history of tomorrow.", pageProfile: "long" },
+
+  // --- Self-development ---
+  { title: "العادات الذرية", author: "جيمس كلير (مترجم)", category: "selfdev", language: "ar", description: "بناء عادات صغيرة لنتائج مذهلة.", pageProfile: "long" },
+  { title: "قوة الآن", author: "إيكهارت تول (مترجم)", category: "selfdev", language: "ar", description: "دليل للحياة في اللحظة الحاضرة.", pageProfile: "long" },
+  { title: "فن اللامبالاة", author: "مارك مانسون (مترجم)", category: "selfdev", language: "ar", description: "نهج مختلف لحياة جيدة.", pageProfile: "medium" },
+  { title: "ابدأ بالسؤال لماذا", author: "سايمون سينك (مترجم)", category: "selfdev", language: "ar", description: "كيف يلهم القادة العظماء الآخرين.", pageProfile: "long" },
+  { title: "Deep Work", author: "Cal Newport", category: "selfdev", language: "en", description: "Rules for focused success in a distracted world.", pageProfile: "long" },
+  { title: "Mindset", author: "Carol Dweck", category: "selfdev", language: "en", description: "The new psychology of success.", pageProfile: "long" },
+
+  // --- Science ---
+  { title: "تاريخ موجز للزمن", author: "ستيفن هوكينغ (مترجم)", category: "science", language: "ar", description: "من الانفجار العظيم إلى الثقوب السوداء.", pageProfile: "long" },
+  { title: "الكون", author: "كارل ساغان (مترجم)", category: "science", language: "ar", description: "رحلة كونية مع كارل ساغان.", pageProfile: "long" },
+  { title: "الجين الأناني", author: "ريتشارد دوكينز (مترجم)", category: "science", language: "ar", description: "نظرة جديدة على التطور.", pageProfile: "long" },
+  { title: "Brief Answers to the Big Questions", author: "Stephen Hawking", category: "science", language: "en", description: "Hawking's final reflections on humanity's big questions.", pageProfile: "long" },
+  { title: "The Body", author: "Bill Bryson", category: "science", language: "en", description: "A guide for occupants.", pageProfile: "long" },
+
+  // --- History ---
+  { title: "تاريخ الأندلس", author: "محمد عبد الله عنان", category: "history", language: "ar", description: "موسوعة في تاريخ الأندلس من الفتح إلى السقوط.", pageProfile: "epic" },
+  { title: "نهاية الأندلس", author: "محمد عبد الله عنان", category: "history", language: "ar", description: "تأريخ سقوط غرناطة ومأساة الموريسكيين.", pageProfile: "long" },
+  { title: "الكامل في التاريخ", author: "ابن الأثير", category: "history", language: "ar", description: "موسوعة تاريخية كلاسيكية.", pageProfile: "epic" },
+  { title: "البداية والنهاية", author: "ابن كثير", category: "history", language: "ar", description: "أحد أهم كتب التاريخ الإسلامي.", pageProfile: "epic" },
+  { title: "تاريخ الطبري", author: "محمد بن جرير الطبري", category: "history", language: "ar", description: "تاريخ الرسل والملوك.", pageProfile: "epic" },
+  { title: "Guns, Germs, and Steel", author: "Jared Diamond", category: "history", language: "en", description: "The fates of human societies.", pageProfile: "epic" },
+
+  // --- True stories ---
+  { title: "أيام من حياتي", author: "زينب الغزالي", category: "truestory", language: "ar", description: "مذكرات صادمة من زمن المحنة.", pageProfile: "long" },
+  { title: "لأنك الله", author: "علي بن جابر الفيفي", category: "truestory", language: "ar", description: "تأملات إيمانية من تجربة حية.", pageProfile: "medium" },
+  { title: "Educated", author: "Tara Westover", category: "truestory", language: "en", description: "A memoir about education and freedom.", pageProfile: "long" },
+  { title: "When Breath Becomes Air", author: "Paul Kalanithi", category: "truestory", language: "en", description: "A neurosurgeon's reflections on life and death.", pageProfile: "long" },
+
+  // --- Stories ---
+  { title: "أرض البرتقال الحزين", author: "غسان كنفاني", category: "stories", language: "ar", description: "قصص قصيرة عن الغربة والوطن.", pageProfile: "medium" },
+  { title: "حكايات حارتنا", author: "نجيب محفوظ", category: "stories", language: "ar", description: "مشاهد إنسانية من الحارة المصرية.", pageProfile: "medium" },
+  { title: "قنديل أم هاشم", author: "يحيى حقي", category: "stories", language: "ar", description: "قصة شهيرة بين الإيمان والعلم.", pageProfile: "medium" },
+
+  // --- Trending ---
+  { title: "أرض زيكولا", author: "عمرو عبد الحميد", category: "trending", language: "ar", description: "رواية خيالية عربية رائجة.", pageProfile: "long" },
+  { title: "في قلبي أنثى عبرية", author: "خولة حمدي", category: "trending", language: "ar", description: "رواية رائجة عن الإيمان والهوية.", pageProfile: "long" },
+  { title: "Atomic Habits", author: "James Clear", category: "trending", language: "en", description: "Tiny changes, remarkable results.", pageProfile: "long" },
+  { title: "It Ends with Us", author: "Colleen Hoover", category: "trending", language: "en", description: "A bestselling emotional novel.", pageProfile: "long" },
+
+  // --- Children ---
+  { title: "الفيل الذي نسي لونه", author: "قصة عربية", category: "children", language: "ar", description: "فيل صغير يبحث عن لونه الحقيقي.", pageProfile: "short", cover: kidsAnimals, illustration: kidsAnimals },
+  { title: "البطة التي طارت عاليًا", author: "قصة عربية", category: "children", language: "ar", description: "بطة شجاعة تحقق حلمها بالطيران.", pageProfile: "short", cover: kidsSea, illustration: kidsSea },
+  { title: "ليلى والشجرة الذهبية", author: "حكاية شعبية", category: "children", language: "ar", description: "طفلة تكتشف سرّ شجرة قديمة.", pageProfile: "short", cover: kidsLantern, illustration: kidsLantern },
+];
+
+allSeeds.push(...megaExpansionSeeds);
+
 export const books: Book[] = allSeeds.map((seed, index) => ({
   id: String(index + 1),
   title: seed.title,
