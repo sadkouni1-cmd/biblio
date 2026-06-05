@@ -29,8 +29,12 @@ const BookCardImpl = ({ book }: { book: Book }) => {
             src={book.cover}
             alt={book.title}
             loading="lazy"
+            decoding="async"
+            width={300}
+            height={400}
             className="h-full w-full object-cover transition-smooth group-hover:scale-105"
           />
+
           <div className="book-spine absolute inset-0 pointer-events-none" />
           <div className="absolute inset-0 bg-gradient-to-t from-foreground/70 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-smooth" />
           <div className="absolute bottom-2 left-2 right-2 text-primary-foreground opacity-0 group-hover:opacity-100 transition-smooth">
