@@ -21,7 +21,7 @@ const Index = () => {
 
   // Debounce typing so heavy filtering doesn't run on every keystroke.
   useEffect(() => {
-    const id = window.setTimeout(() => setDebouncedSearch(search), 140);
+    const id = window.setTimeout(() => setDebouncedSearch(search), 80);
     return () => window.clearTimeout(id);
   }, [search]);
 
