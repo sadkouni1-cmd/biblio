@@ -6,6 +6,61 @@ import { useTheme } from "@/hooks/use-theme";
 import { AboutDialog } from "@/components/AboutDialog";
 import { ThemePicker } from "@/components/ThemePicker";
 
+type SearchPillViewProps = {
+  inputRef: React.RefObject<HTMLInputElement>;
+  value: string;
+  onChange: (v: string) => void;
+  focused: boolean;
+  setFocused: (v: boolean) => void;
+};
+
+const SearchPillView = ({ inputRef, value, onChange, focused, setFocused }: SearchPillViewProps) => (
+  <div
+    className={[
+      "relative flex items-center h-10 w-full rounded-full",
+      "bg-card/80 backdrop-blur-sm border transition-all duration-300",
+      focused
+        ? "border-primary/60 shadow-[0_0_0_4px_hsl(var(--primary)/0.12)]"
+        : "border-border/60 hover:border-border",
+    ].join(" ")}
+  >
+    <Search
+      className={[
+        "absolute right-3 h-[18px] w-[18px] transition-colors pointer-events-none",
+        focused ? "text-primary" : "text-muted-foreground",
+      ].join(" ")}
+    />
+    <input
+      ref={inputRef}
+      value={value}
+      onChange={(e) => onChange(e.target.value)}
+      onFocus={() => setFocused(true)}
+      onBlur={() => setFocused(false)}
+      placeholder="ابحث عن أي كتاب أو مؤلف…"
+      inputMode="search"
+      enterKeyHint="search"
+      autoComplete="off"
+      style={{ fontSize: "16px" }}
+      className="w-full h-full bg-transparent rounded-full pr-10 pl-10 text-sm text-foreground placeholder:text-muted-foreground/80 outline-none"
+    />
+    {value.length > 0 && (
+      <button
+        type="button"
+        onMouseDown={(e) => e.preventDefault()}
+        onClick={() => {
+          onChange("");
+          inputRef.current?.focus();
+        }}
+        className="absolute left-2 h-7 w-7 grid place-items-center rounded-full text-muted-foreground hover:text-foreground hover:bg-secondary transition-colors"
+        aria-label="مسح"
+      >
+        <X className="h-4 w-4" />
+      </button>
+    )}
+  </div>
+);
+
+
 export const Header = ({ onSearch, search }: { onSearch?: (v: string) => void; search?: string }) => {
   const navigate = useNavigate();
   const location = useLocation();
