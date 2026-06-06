@@ -2901,6 +2901,7 @@ const megaExpansionSeeds: Seed[] = [
   // --- User explicitly requested ---
   { title: "الأندلسي الأخير", author: "علي المقري", category: "novels", language: "ar", description: "رواية تستعيد ذاكرة الأندلس وسقوطها من منظور شخصية مأزومة بين هويتين.", pageProfile: "epic" },
   { title: "جمر", author: "سحر خليفة", category: "novels", language: "ar", description: "رواية تشتعل بالعواطف والصراعات الإنسانية في زمن متقلّب.", pageProfile: "epic" },
+  { title: "The Man Who Could Have Been", author: "Fernando Gutierrez", category: "selfdev", language: "en", description: "A powerful guide to avoiding a life of regret and building a life of purpose.", pageProfile: "medium" },
   { title: "The Man Who Could Have Been a Book", author: "Modern Author", category: "novels", language: "en", description: "A poetic novel about a man whose life unfolds like the pages of an unfinished book.", pageProfile: "long" },
 
   // --- Novels (Arabic & translated) ---
