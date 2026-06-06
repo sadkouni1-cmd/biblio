@@ -81,50 +81,14 @@ export const Header = ({ onSearch, search }: { onSearch?: (v: string) => void; s
   const ThemeIcon = isDark ? Sun : Moon;
   const themeLabel = isDark ? "وضع نهاري" : "وضع ليلي";
 
-  const SearchPill = ({ inputRef: ref, autoFocus }: { inputRef: React.RefObject<HTMLInputElement>; autoFocus?: boolean }) => (
-    <div
-      className={[
-        "relative flex items-center h-10 w-full rounded-full",
-        "bg-card/80 backdrop-blur-sm border transition-all duration-300",
-        focused
-          ? "border-primary/60 shadow-[0_0_0_4px_hsl(var(--primary)/0.12)]"
-          : "border-border/60 hover:border-border",
-      ].join(" ")}
-    >
-      <Search
-        className={[
-          "absolute right-3 h-[18px] w-[18px] transition-colors pointer-events-none",
-          focused ? "text-primary" : "text-muted-foreground",
-        ].join(" ")}
-      />
-      <input
-        ref={ref}
-        value={search ?? ""}
-        onChange={(e) => onSearch!(e.target.value)}
-        onFocus={() => setFocused(true)}
-        onBlur={() => setFocused(false)}
-        placeholder="ابحث عن أي كتاب أو مؤلف…"
-        inputMode="search"
-        enterKeyHint="search"
-        autoComplete="off"
-        autoFocus={autoFocus}
-        style={{ fontSize: "16px" }}
-        className="w-full h-full bg-transparent rounded-full pr-10 pl-10 text-sm text-foreground placeholder:text-muted-foreground/80 outline-none"
-      />
-      {search && search.length > 0 && (
-        <button
-          type="button"
-          onClick={() => {
-            onSearch!("");
-            ref.current?.focus();
-          }}
-          className="absolute left-2 h-7 w-7 grid place-items-center rounded-full text-muted-foreground hover:text-foreground hover:bg-secondary transition-colors"
-          aria-label="مسح"
-        >
-          <X className="h-4 w-4" />
-        </button>
-      )}
-    </div>
+  const SearchPill = ({ inputRef: ref }: { inputRef: React.RefObject<HTMLInputElement> }) => (
+    <SearchPillView
+      inputRef={ref}
+      value={search ?? ""}
+      onChange={(v) => onSearch!(v)}
+      focused={focused}
+      setFocused={setFocused}
+    />
   );
 
   return (
