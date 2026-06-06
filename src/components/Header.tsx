@@ -263,7 +263,7 @@ export const Header = ({ onSearch, search }: { onSearch?: (v: string) => void; s
           ].join(" ")}
         >
           <div className="container px-3 py-2">
-            <SearchPill inputRef={mobileInputRef} autoFocus />
+            {mobileSearchOpen && <SearchPill inputRef={mobileInputRef} />}
           </div>
         </div>
       )}
