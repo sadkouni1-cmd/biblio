@@ -136,7 +136,7 @@ export const Header = ({ onSearch, search }: { onSearch?: (v: string) => void; s
   const ThemeIcon = isDark ? Sun : Moon;
   const themeLabel = isDark ? "وضع نهاري" : "وضع ليلي";
 
-  const SearchPill = ({ inputRef: ref }: { inputRef: React.RefObject<HTMLInputElement> }) => (
+  const renderSearchPill = (ref: React.RefObject<HTMLInputElement>) => (
     <SearchPillView
       inputRef={ref}
       value={search ?? ""}
@@ -266,7 +266,7 @@ export const Header = ({ onSearch, search }: { onSearch?: (v: string) => void; s
             ].join(" ")}
             aria-hidden={!desktopSearchOpen}
           >
-            <SearchPill inputRef={inputRef} />
+            {renderSearchPill(inputRef)}
           </div>
         )}
       </div>
@@ -282,7 +282,7 @@ export const Header = ({ onSearch, search }: { onSearch?: (v: string) => void; s
           ].join(" ")}
         >
           <div className="container px-3 py-2">
-            {mobileSearchOpen && <SearchPill inputRef={mobileInputRef} />}
+            {mobileSearchOpen && renderSearchPill(mobileInputRef)}
           </div>
         </div>
       )}
