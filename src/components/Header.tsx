@@ -79,10 +79,6 @@ export const Header = ({ onSearch, search }: { onSearch?: (v: string) => void; s
   const { theme, setTheme } = useTheme();
 
   useEffect(() => {
-    setLocalSearch(search ?? "");
-  }, [search]);
-
-  useEffect(() => {
     return () => {
       if (searchTimerRef.current) window.clearTimeout(searchTimerRef.current);
     };
@@ -96,11 +92,13 @@ export const Header = ({ onSearch, search }: { onSearch?: (v: string) => void; s
       if (searchTimerRef.current) window.clearTimeout(searchTimerRef.current);
 
       if (value === "") {
+        searchTimerRef.current = null;
         onSearch("");
         return;
       }
 
       searchTimerRef.current = window.setTimeout(() => {
+        searchTimerRef.current = null;
         onSearch(value);
       }, 60);
     },
