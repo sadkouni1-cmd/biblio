@@ -136,7 +136,7 @@ export const Header = ({ onSearch, search }: { onSearch?: (v: string) => void; s
   const ThemeIcon = isDark ? Sun : Moon;
   const themeLabel = isDark ? "وضع نهاري" : "وضع ليلي";
 
-  const SearchPill = ({ inputRef: ref }: { inputRef: React.RefObject<HTMLInputElement> }) => (
+  const renderSearchPill = (ref: React.RefObject<HTMLInputElement>) => (
     <SearchPillView
       inputRef={ref}
       value={search ?? ""}
