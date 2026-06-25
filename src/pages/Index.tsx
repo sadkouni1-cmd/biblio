@@ -1,4 +1,4 @@
-import { useDeferredValue, useEffect, useMemo, useState } from "react";
+import { useCallback, useDeferredValue, useEffect, useMemo, useState, useTransition } from "react";
 import { Header } from "@/components/Header";
 import { Hero } from "@/components/Hero";
 import { BookCard } from "@/components/BookCard";
@@ -13,17 +13,15 @@ const Index = () => {
   const [activeCat, setActiveCat] = useState<Category | "all">("all");
   const [activeLang, setActiveLang] = useState<Lang | "all">("all");
   const [search, setSearch] = useState("");
-  const [debouncedSearch, setDebouncedSearch] = useState("");
+  const [, startTransition] = useTransition();
   const [visibleCount, setVisibleCount] = useState(INITIAL_VISIBLE_BOOKS);
   const deferredActiveCat = useDeferredValue(activeCat);
   const deferredActiveLang = useDeferredValue(activeLang);
-  const deferredSearch = useDeferredValue(debouncedSearch);
+  const deferredSearch = useDeferredValue(search);
 
-  // Debounce typing so heavy filtering doesn't run on every keystroke.
-  useEffect(() => {
-    const id = window.setTimeout(() => setDebouncedSearch(search), 80);
-    return () => window.clearTimeout(id);
-  }, [search]);
+  const handleSearch = useCallback((value: string) => {
+    startTransition(() => setSearch(value));
+  }, []);
 
   const filtered = useMemo(() => {
     const base = deferredSearch.trim() ? searchBooks(deferredSearch) : books;
@@ -68,7 +66,7 @@ const Index = () => {
 
   const hasSearch = search.trim().length > 0;
   const isUpdatingResults =
-    activeCat !== deferredActiveCat || activeLang !== deferredActiveLang || debouncedSearch !== deferredSearch;
+    activeCat !== deferredActiveCat || activeLang !== deferredActiveLang || search !== deferredSearch;
 
   // Group by author when the user is inside a specific section (or searching),
   // so that each author appears as a header with their books listed beneath.
@@ -86,7 +84,7 @@ const Index = () => {
 
   return (
     <div className="min-h-screen">
-      <Header onSearch={setSearch} search={search} />
+      <Header onSearch={handleSearch} search={search} />
 
       {!hasSearch && <Hero />}
 
