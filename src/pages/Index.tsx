@@ -1,4 +1,4 @@
-import { useCallback, useDeferredValue, useEffect, useMemo, useState, useTransition } from "react";
+import { useCallback, useDeferredValue, useEffect, useMemo, useRef, useState, useTransition } from "react";
 import { Header } from "@/components/Header";
 import { Hero } from "@/components/Hero";
 import { BookCard } from "@/components/BookCard";
@@ -6,8 +6,8 @@ import { books, categories, languages, type Category, type Lang } from "@/data/b
 import { searchBooks } from "@/lib/search";
 import { cn } from "@/lib/utils";
 
-const INITIAL_VISIBLE_BOOKS = 48;
-const BOOKS_PER_BATCH = 72;
+const INITIAL_VISIBLE_BOOKS = 36;
+const BOOKS_PER_BATCH = 48;
 
 const Index = () => {
   const [activeCat, setActiveCat] = useState<Category | "all">("all");
@@ -15,6 +15,7 @@ const Index = () => {
   const [search, setSearch] = useState("");
   const [, startTransition] = useTransition();
   const [visibleCount, setVisibleCount] = useState(INITIAL_VISIBLE_BOOKS);
+  const loadMoreRef = useRef<HTMLDivElement>(null);
   const deferredActiveCat = useDeferredValue(activeCat);
   const deferredActiveLang = useDeferredValue(activeLang);
   const deferredSearch = useDeferredValue(search);
@@ -34,33 +35,26 @@ const Index = () => {
   }, [deferredActiveCat, deferredActiveLang, deferredSearch]);
 
   useEffect(() => {
-    const nextVisible = Math.min(INITIAL_VISIBLE_BOOKS, filtered.length);
-    setVisibleCount(nextVisible);
-
-    if (filtered.length <= nextVisible) return;
-
-    let cancelled = false;
-    let timeoutId = 0;
-
-    const scheduleNextBatch = () => {
-      timeoutId = window.setTimeout(() => {
-        if (cancelled) return;
-
-        setVisibleCount((current) => {
-          const next = Math.min(current + BOOKS_PER_BATCH, filtered.length);
-          if (next < filtered.length) scheduleNextBatch();
-          return next;
-        });
-      }, 24);
-    };
-
-    scheduleNextBatch();
-
-    return () => {
-      cancelled = true;
-      window.clearTimeout(timeoutId);
-    };
+    setVisibleCount(Math.min(INITIAL_VISIBLE_BOOKS, filtered.length));
   }, [filtered]);
+
+  useEffect(() => {
+    const target = loadMoreRef.current;
+    if (!target || visibleCount >= filtered.length) return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (!entry.isIntersecting) return;
+        startTransition(() => {
+          setVisibleCount((current) => Math.min(current + BOOKS_PER_BATCH, filtered.length));
+        });
+      },
+      { rootMargin: "900px 0px" },
+    );
+
+    observer.observe(target);
+    return () => observer.disconnect();
+  }, [filtered.length, startTransition, visibleCount]);
 
   const displayedBooks = useMemo(() => filtered.slice(0, visibleCount), [filtered, visibleCount]);
 
@@ -174,6 +168,10 @@ const Index = () => {
               <BookCard key={b.id} book={b} />
             ))}
           </div>
+        )}
+
+        {visibleCount < filtered.length && (
+          <div ref={loadMoreRef} className="h-10" aria-hidden="true" />
         )}
       </main>
 
