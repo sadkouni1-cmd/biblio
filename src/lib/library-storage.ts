@@ -33,6 +33,7 @@ const writeJSON = (key: string, value: unknown) => {
 /* ---------- Favorites: single shared store + per-id subscription ---------- */
 
 let favoritesState: string[] = readJSON<string[]>(FAVORITES_KEY, []);
+let favoritesSet = new Set(favoritesState);
 const favListeners = new Set<() => void>();
 
 const emitFav = () => favListeners.forEach((l) => l());
@@ -43,9 +44,10 @@ const subscribeFav = (cb: () => void) => {
 };
 
 export const toggleFavorite = (id: string) => {
-  favoritesState = favoritesState.includes(id)
+  favoritesState = favoritesSet.has(id)
     ? favoritesState.filter((x) => x !== id)
     : [...favoritesState, id];
+  favoritesSet = new Set(favoritesState);
   writeJSON(FAVORITES_KEY, favoritesState);
   emitFav();
 };
@@ -55,6 +57,7 @@ if (typeof window !== "undefined") {
   window.addEventListener("storage", (e) => {
     if (e.key !== FAVORITES_KEY) return;
     favoritesState = readJSON<string[]>(FAVORITES_KEY, []);
+    favoritesSet = new Set(favoritesState);
     emitFav();
   });
 }
@@ -63,7 +66,7 @@ if (typeof window !== "undefined") {
 export const useIsFavorite = (id: string) => {
   return useSyncExternalStore(
     subscribeFav,
-    () => favoritesState.includes(id),
+    () => favoritesSet.has(id),
     () => false,
   );
 };

@@ -269,17 +269,9 @@
   }
   h1, h2, h3, h4, .font-display {
     font-family: 'Cormorant Garamond', serif;
-    letter-spacing: -0.01em;
+    letter-spacing: 0;
   }
   .font-arabic { font-family: 'Amiri', serif; }
-}
-
-@media (min-width: 768px) {
-  @layer base {
-    body {
-      background-attachment: fixed;
-    }
-  }
 }
 
 @layer utilities {
@@ -320,4 +312,14 @@
   .group:hover .group-hover\:scale-105 { transform: none !important; }
   .group:hover .group-hover\:scale-110 { transform: none !important; }
 }
+
+@media (prefers-reduced-motion: reduce), (update: slow) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    scroll-behavior: auto !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
 a, button { -webkit-tap-highlight-color: transparent; touch-action: manipulation; }
