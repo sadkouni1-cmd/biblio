@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { memo, useCallback, useEffect, useRef, useState } from "react";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import { BookOpen, Search, Library, X, Sun, Moon, Info } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -14,7 +14,7 @@ type SearchPillViewProps = {
   setFocused: (v: boolean) => void;
 };
 
-const SearchPillView = ({ inputRef, value, onChange, focused, setFocused }: SearchPillViewProps) => (
+const SearchPillView = memo(({ inputRef, value, onChange, focused, setFocused }: SearchPillViewProps) => (
   <div
     className={[
       "relative flex items-center h-10 w-full rounded-full",
@@ -58,7 +58,9 @@ const SearchPillView = ({ inputRef, value, onChange, focused, setFocused }: Sear
       </button>
     )}
   </div>
-);
+));
+
+SearchPillView.displayName = "SearchPillView";
 
 
 export const Header = ({ onSearch, search }: { onSearch?: (v: string) => void; search?: string }) => {
@@ -69,10 +71,39 @@ export const Header = ({ onSearch, search }: { onSearch?: (v: string) => void; s
   const [focused, setFocused] = useState(false);
   const [mobileSearchOpen, setMobileSearchOpen] = useState(false);
   const [desktopSearchOpen, setDesktopSearchOpen] = useState(false);
+  const [localSearch, setLocalSearch] = useState(search ?? "");
   const inputRef = useRef<HTMLInputElement>(null);
   const mobileInputRef = useRef<HTMLInputElement>(null);
   const desktopSearchWrapRef = useRef<HTMLDivElement>(null);
+  const searchTimerRef = useRef<number | null>(null);
   const { theme, setTheme } = useTheme();
+
+  useEffect(() => {
+    return () => {
+      if (searchTimerRef.current) window.clearTimeout(searchTimerRef.current);
+    };
+  }, []);
+
+  const handleSearchChange = useCallback(
+    (value: string) => {
+      setLocalSearch(value);
+      if (!onSearch) return;
+
+      if (searchTimerRef.current) window.clearTimeout(searchTimerRef.current);
+
+      if (value === "") {
+        searchTimerRef.current = null;
+        onSearch("");
+        return;
+      }
+
+      searchTimerRef.current = window.setTimeout(() => {
+        searchTimerRef.current = null;
+        onSearch(value);
+      }, 60);
+    },
+    [onSearch],
+  );
 
   useEffect(() => {
     if (!isHome || !hasInlineSearch) return;
@@ -139,8 +170,8 @@ export const Header = ({ onSearch, search }: { onSearch?: (v: string) => void; s
   const renderSearchPill = (ref: React.RefObject<HTMLInputElement>) => (
     <SearchPillView
       inputRef={ref}
-      value={search ?? ""}
-      onChange={(v) => onSearch!(v)}
+      value={localSearch}
+      onChange={handleSearchChange}
       focused={focused}
       setFocused={setFocused}
     />
