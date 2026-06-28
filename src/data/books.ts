@@ -157,6 +157,7 @@ const spanishCategoryLabel: Record<Category, string> = {
   science: "la salud y la ciencia",
   truestory: "las historias reales y memorias",
   history: "la historia",
+  marriage: "el matrimonio y la pareja",
 };
 
 const arParagraphs = [
