@@ -13,7 +13,7 @@ import kidsAnimals from "@/assets/kids-animals.jpg";
 
 export const kidsIllustrations = [kidsFox, kidsCarpet, kidsRabbit, kidsLantern, kidsSea, kidsAnimals];
 
-export type Category = "religious" | "philosophy" | "children" | "stories" | "novels" | "selfdev" | "trending" | "science" | "truestory" | "history";
+export type Category = "religious" | "philosophy" | "children" | "stories" | "novels" | "selfdev" | "trending" | "science" | "truestory" | "history" | "marriage";
 export type Lang = "ar" | "fr" | "en" | "es";
 type PageProfile = "short" | "medium" | "long" | "epic";
 
