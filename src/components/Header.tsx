@@ -10,12 +10,20 @@ type SearchPillViewProps = {
   inputRef: React.RefObject<HTMLInputElement>;
   value: string;
   onChange: (v: string) => void;
+  onSubmit: (v: string) => void;
   focused: boolean;
   setFocused: (v: boolean) => void;
 };
 
-const SearchPillView = memo(({ inputRef, value, onChange, focused, setFocused }: SearchPillViewProps) => (
-  <div
+const SEARCH_DEBOUNCE_MS = 180;
+
+const SearchPillView = memo(({ inputRef, value, onChange, onSubmit, focused, setFocused }: SearchPillViewProps) => (
+  <form
+    role="search"
+    onSubmit={(e) => {
+      e.preventDefault();
+      onSubmit(inputRef.current?.value ?? value);
+    }}
     className={[
       "relative flex items-center h-10 w-full rounded-full",
       "bg-card/80 backdrop-blur-sm border transition-all duration-300",
@@ -32,6 +40,7 @@ const SearchPillView = memo(({ inputRef, value, onChange, focused, setFocused }:
     />
     <input
       ref={inputRef}
+      type="search"
       value={value}
       onChange={(e) => onChange(e.target.value)}
       onFocus={() => setFocused(true)}
@@ -40,6 +49,8 @@ const SearchPillView = memo(({ inputRef, value, onChange, focused, setFocused }:
       inputMode="search"
       enterKeyHint="search"
       autoComplete="off"
+      autoCorrect="off"
+      spellCheck={false}
       style={{ fontSize: "16px" }}
       className="w-full h-full bg-transparent rounded-full pr-10 pl-10 text-sm text-foreground placeholder:text-muted-foreground/80 outline-none"
     />
@@ -57,7 +68,7 @@ const SearchPillView = memo(({ inputRef, value, onChange, focused, setFocused }:
         <X className="h-4 w-4" />
       </button>
     )}
-  </div>
+  </form>
 ));
 
 SearchPillView.displayName = "SearchPillView";
@@ -100,7 +111,22 @@ export const Header = ({ onSearch, search }: { onSearch?: (v: string) => void; s
       searchTimerRef.current = window.setTimeout(() => {
         searchTimerRef.current = null;
         onSearch(value);
-      }, 60);
+      }, SEARCH_DEBOUNCE_MS);
+    },
+    [onSearch],
+  );
+
+  const handleSearchSubmit = useCallback(
+    (value: string) => {
+      setLocalSearch(value);
+      if (searchTimerRef.current) {
+        window.clearTimeout(searchTimerRef.current);
+        searchTimerRef.current = null;
+      }
+      onSearch?.(value);
+      inputRef.current?.blur();
+      mobileInputRef.current?.blur();
+      setFocused(false);
     },
     [onSearch],
   );
@@ -172,6 +198,7 @@ export const Header = ({ onSearch, search }: { onSearch?: (v: string) => void; s
       inputRef={ref}
       value={localSearch}
       onChange={handleSearchChange}
+      onSubmit={handleSearchSubmit}
       focused={focused}
       setFocused={setFocused}
     />
