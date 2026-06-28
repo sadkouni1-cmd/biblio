@@ -101,6 +101,7 @@ const defaultProfileByCategory: Record<Category, PageProfile> = {
   science: "long",
   truestory: "long",
   history: "epic",
+  marriage: "long",
 };
 
 const arabicCategoryLabel: Record<Category, string> = {
