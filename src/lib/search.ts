@@ -26,6 +26,7 @@ interface IndexEntry {
   author: string;
   description: string;
   category: string;
+  searchable: string;
 }
 
 let cachedIndex: IndexEntry[] | null = null;
@@ -37,8 +38,39 @@ function getIndex(): IndexEntry[] {
     author: normalize(b.author),
     description: normalize(b.description),
     category: normalize(b.category),
+    searchable: normalize(`${b.title} ${b.author} ${b.description} ${b.category}`),
   }));
   return cachedIndex;
+}
+
+// Lightweight search used while typing, so the keyboard never waits on scoring/sorting work.
+export function quickSearchBooks(rawQuery: string, limit = 80): Book[] {
+  const q = normalize(rawQuery);
+  if (!q) return books;
+
+  const tokens = q.split(" ").filter(Boolean);
+  if (tokens.length === 0) return books;
+
+  const idx = getIndex();
+  const exactOrPrefix: Book[] = [];
+  const partial: Book[] = [];
+
+  for (let i = 0; i < idx.length && exactOrPrefix.length + partial.length < limit; i++) {
+    const e = idx[i];
+    let matched = true;
+    for (const token of tokens) {
+      if (!e.searchable.includes(token)) {
+        matched = false;
+        break;
+      }
+    }
+    if (!matched) continue;
+
+    if (e.title.startsWith(q) || e.author.startsWith(q)) exactOrPrefix.push(e.book);
+    else partial.push(e.book);
+  }
+
+  return exactOrPrefix.concat(partial);
 }
 
 /**

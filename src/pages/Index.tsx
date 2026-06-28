@@ -3,7 +3,7 @@ import { Header } from "@/components/Header";
 import { Hero } from "@/components/Hero";
 import { BookCard } from "@/components/BookCard";
 import { books, categories, languages, type Category, type Lang } from "@/data/books";
-import { searchBooks } from "@/lib/search";
+import { quickSearchBooks } from "@/lib/search";
 import { cn } from "@/lib/utils";
 
 const INITIAL_VISIBLE_BOOKS = 36;
@@ -25,7 +25,7 @@ const Index = () => {
   }, []);
 
   const filtered = useMemo(() => {
-    const base = deferredSearch.trim() ? searchBooks(deferredSearch) : books;
+    const base = deferredSearch.trim() ? quickSearchBooks(deferredSearch) : books;
     if (deferredActiveCat === "all" && deferredActiveLang === "all") return base;
     return base.filter((b) => {
       if (deferredActiveCat !== "all" && b.category !== deferredActiveCat) return false;
@@ -65,7 +65,7 @@ const Index = () => {
   // Group by author when the user is inside a specific section (or searching),
   // so that each author appears as a header with their books listed beneath.
   const groupedByAuthor = useMemo(() => {
-    if (deferredActiveCat === "all" && !deferredSearch.trim()) return null;
+    if (deferredActiveCat === "all") return null;
     const map = new Map<string, typeof displayedBooks>();
     for (const b of displayedBooks) {
       const list = map.get(b.author) ?? [];
