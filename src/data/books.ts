@@ -115,6 +115,7 @@ const arabicCategoryLabel: Record<Category, string> = {
   science: "الصحة والعلوم",
   truestory: "القصص الحقيقية والسير",
   history: "الكتب التاريخية",
+  marriage: "كتب العلاقة الزوجية",
 };
 
 const englishCategoryLabel: Record<Category, string> = {
