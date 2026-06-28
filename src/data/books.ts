@@ -56,6 +56,7 @@ export const categories: { id: Category; label: string; labelEn: string; color: 
   { id: "novels", label: "روايات", labelEn: "Novels", color: "hsl(var(--cat-novel))", icon: "🌅" },
   { id: "truestory", label: "قصص حقيقية", labelEn: "True Stories", color: "hsl(var(--cat-stories))", icon: "📜" },
   { id: "history", label: "تاريخ", labelEn: "History", color: "hsl(var(--cat-philosophy))", icon: "🏺" },
+  { id: "marriage", label: "العلاقة الزوجية", labelEn: "Marriage", color: "hsl(var(--cat-novel))", icon: "💍" },
 ];
 
 export const languages: { id: Lang; label: string; flag: string }[] = [
