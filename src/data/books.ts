@@ -143,6 +143,7 @@ const frenchCategoryLabel: Record<Category, string> = {
   science: "la santé et la science",
   truestory: "les histoires vraies et mémoires",
   history: "l'histoire",
+  marriage: "le couple et la vie conjugale",
 };
 
 const spanishCategoryLabel: Record<Category, string> = {
