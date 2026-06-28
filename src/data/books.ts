@@ -129,6 +129,7 @@ const englishCategoryLabel: Record<Category, string> = {
   science: "health & science",
   truestory: "true stories & memoirs",
   history: "history",
+  marriage: "marriage & relationships",
 };
 
 const frenchCategoryLabel: Record<Category, string> = {
